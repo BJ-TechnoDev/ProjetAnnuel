@@ -12,7 +12,7 @@ use Symfony\Component\Mailer\MailerInterface;
 class ContactController extends AbstractController
 {
     /**
-     * @Route("/", name="contact")
+     * @Route("/contact", name="contact")
      */
 
 

@@ -1,4 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('react') }}
 {% endblock %}
+
+{% block body %}
+    <div id="app"></div>
+{% endblock %}
+
+   {% block javascripts %}
+       <script
+               src="https://code.jquery.com/jquery-3.4.1.min.js"
+               integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+               crossorigin="anonymous">
+       </script>
+       {{ encore_entry_script_tags('react') }}
+   {% endblock %}

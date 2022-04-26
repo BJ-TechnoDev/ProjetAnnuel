@@ -21,6 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
+    .addEntry('react', './assets/js/react.js')
     .copyFiles({
         from: './assets/images'
     })
@@ -65,7 +66,7 @@ Encore
 //.enableTypeScriptLoader()
 
 // uncomment if you use React
-//.enableReactPreset()
+.enableReactPreset()
 
 // uncomment to get integrity="..." attributes on your script & link tags
 // requires WebpackEncoreBundle 1.4 or higher
