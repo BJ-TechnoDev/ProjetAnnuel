@@ -20,8 +20,8 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/js/app.js')
-    .addEntry('react', './assets/js/react.js')
+    .addEntry('app', './assets/js/page/home.js')
+    .addEntry('test', './assets/js/page/test.js')
     .copyFiles({
         from: './assets/images'
     })

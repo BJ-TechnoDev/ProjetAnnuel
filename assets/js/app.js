@@ -4,11 +4,12 @@ import '../styles/app.css';
 
 import AOS from 'aos';
 
+//lib js
 AOS.init();
 
-
-
-
-
-// start the Stimulus application
 import '../bootstrap';
+
+
+
+
+
