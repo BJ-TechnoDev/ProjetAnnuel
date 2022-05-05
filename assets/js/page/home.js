@@ -1,20 +1,17 @@
 import '../app'
-import React, {Component} from 'react';
-import Hello from "../composant/hello";
+import React from 'react';
 import {createRoot} from "react-dom/client";
+import Hello from "../composant/hello";
 
-class Home extends Component {
-    render() {
-        return (
-            <div>
-                <Hello/>
-            </div>
-        );
-    }
+function Home() {
+    return (
+        <div>
+            <Hello />
+        </div>
+    );
 }
 
 export default Home;
 
-
-const root = createRoot(document.getElementById('app'));
-root.render(<Home />);
+const rootHome = createRoot(document.getElementById('app'));
+rootHome.render(<Home/>);
