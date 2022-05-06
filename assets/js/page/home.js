@@ -6,7 +6,7 @@ import Hello from "../composant/hello";
 function Home() {
     return (
         <div>
-            <Hello />
+            <Hello name={"jeremy"}/>
         </div>
     );
 }

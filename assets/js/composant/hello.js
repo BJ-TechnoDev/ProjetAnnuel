@@ -1,13 +1,16 @@
-import React, {Component} from 'react';
+import '../app'
+import React from 'react';
 
-class Hello extends Component {
-    render() {
-        return (
-            <div>
-                <h1 className="testSa">Hello world</h1>
-            </div>
-        );
-    }
+function Hello(props) {
+
+
+    return (
+        <div>
+            <h1>Hello {props.name}</h1>
+        </div>
+    );
 }
 
 export default Hello;
+
+
