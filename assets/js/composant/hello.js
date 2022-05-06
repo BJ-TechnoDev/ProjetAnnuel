@@ -1,16 +1,16 @@
 import '../app'
-import React from 'react';
+import React, {Fragment} from 'react';
 
 function Hello(props) {
-
-
     return (
-        <div>
+        <Fragment>
             <h1>Hello {props.name}</h1>
-        </div>
+        </Fragment>
     );
 }
 
 export default Hello;
+
+
 
 

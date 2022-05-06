@@ -1,13 +1,13 @@
 import '../app'
-import React from 'react';
+import React, {Fragment} from 'react';
 import {createRoot} from "react-dom/client";
 import Hello from "../composant/hello";
 
 function Home() {
     return (
-        <div>
-            <Hello name={"jeremy"}/>
-        </div>
+        <Fragment>
+            <Hello name={"moi"}/>
+        </Fragment>
     );
 }
 
