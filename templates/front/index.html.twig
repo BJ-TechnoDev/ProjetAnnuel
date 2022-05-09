@@ -5,12 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-    <div id="app"></div>
+    <div id="home"></div>
 {% endblock %}
 
    {% block javascripts %}

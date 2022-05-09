@@ -1,17 +1,10 @@
-import '../app'
 import React, {Fragment} from 'react';
-import {createRoot} from "react-dom/client";
 import Hello from "../composant/hello";
 
-function Home() {
+export default function Home() {
     return (
         <Fragment>
-            <Hello name={"moi"}/>
+            <Hello name={"jeremy"}/>
         </Fragment>
     );
 }
-
-export default Home;
-
-const rootHome = createRoot(document.getElementById('app'));
-rootHome.render(<Home/>);
