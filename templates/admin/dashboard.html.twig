@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+{% block page_title %}Admin - BJTechnoDev{% endblock %}
+{% block stylesheets%}
+
+{{encore_entry_css_files('app')}}
+{% endblock%}
+
+{% block content %}
+<div class="m-3">
+    <h1 class="display-4 bold">Administration</h1>
+
+
+    <p class="lead">Bienvenue dans votre espace, Mr <span style="color: red">admin. </span></p>
+    <hr class="my-4">
+    <p>Vous retrouverez ici vos projets.</p>
+    <a style="margin-right: 10px;" class="btn btn-primary btn-lg" href="{{path('homepage')}}" role="button">Accéder à votre site -></a>
+</div>
+
+
+{% endblock %}
