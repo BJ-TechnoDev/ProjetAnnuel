@@ -41,6 +41,19 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
   }
 }
 
+//centrer
+.text-center{
+  text-align: center;
+}
+.flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.m-center{
+  margin: 0 auto;
+}
+
 //col classes
 @include xs {
   @for $i from 1 through $grid-columns{
