@@ -39,6 +39,7 @@
         "react-hooks-lib": "^0.6.0",
         "react-router": "^6.3.0",
         "react-router-dom": "^6.3.0",
+        "react-to-webcomponent": "^1.5.1",
         "styled-components": "^5.3.5",
         "typed.js": "^2.0.12"
     }

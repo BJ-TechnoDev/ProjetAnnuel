@@ -4755,6 +4755,11 @@ react-router@6.3.0, react-router@^6.3.0:
   dependencies:
     history "^5.2.0"
 
+react-to-webcomponent@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-to-webcomponent/-/react-to-webcomponent-1.5.1.tgz#dbb7e497edc1520903dd48f8e2e87d9cf16ef768"
+  integrity sha512-tkPs6cINZSdH76nf0oaUf7ZPARgw/v6vurECavH1yzv8Rt52PeFrbKbGlwxjf2CPEoB/bXOaAHry+GKl4ZcpNw==
+
 react-transition-group@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.2.tgz#8b59a56f09ced7b55cbd53c36768b922890d5470"

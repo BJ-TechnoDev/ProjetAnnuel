@@ -15,6 +15,7 @@ class FrontController extends AbstractController
     {
         return $this->render('front/index.html.twig', [
             'controller_name' => 'FrontController',
+            'nom' => "World",
         ]);
     }
 
