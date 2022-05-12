@@ -2,4 +2,4 @@
 import 'bootstrap';
 
 //css
-import '../styles/login.scss';
+import '../styles/composent/login.scss';
