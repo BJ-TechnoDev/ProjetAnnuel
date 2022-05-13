@@ -8,4 +8,6 @@ import '../bootstrap';
 import React from "react";
 
 // react page
-import Home from "./page/home";
+import "./page/home";
+import "./page/erreur404";
+import "./page/erreur403";
