@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <home-component name="{{nom}}"></home-component>
+{#    component symfony#}
+{{ component('hello', {
+    name : 'test',
+}) }}
 {% endblock %}
 
    {% block javascripts %}

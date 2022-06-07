@@ -3,11 +3,3 @@ import '../styles/app.scss';
 
 //lib js
 import '../bootstrap';
-
-//react
-import React from "react";
-
-// react page
-import "./page/home";
-import "./page/erreur404";
-import "./page/erreur403";
