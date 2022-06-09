@@ -1,37 +1,58 @@
-{# templates/login/index.html.twig #}
-{% block title%}Login Page {%endblock%}
-{% extends 'base.html.twig' %}
-{% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-    <div class="container">
-        <div class="row justify-content-center formlogin m-center vh-100 align-items-center">
-            <div class="col-lg-10">
-                <form method="post" class="borderlogin">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+     {{ encore_entry_link_tags('login') }}
+</head>
+<body>
 
-                    <div class="form-group mt-2">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" value="{{last_username}}" aria-describedby="emailHelp" placeholder="Enter email">
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                    </div>
-                    <div class="form-check mt-2">
-                        <input type="checkbox" name="_remember_me" class="form-check-input" id="exampleCheck1">
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
-                </form>
+    <div class="container">
+
+        <form method="post">
+            <!--   con = Container for items in the form-->
+            <div class="con">
+                <!--     Start  header Content  -->
+                <header class="head-form">
+                    <h2 class="color-text">Onyle</h2>
+                    <!--     A welcome message or an explanation of the login form -->
+                    <p class="color-text">connectez-vous ici en utilisant votre nom d'utilisateur et votre mot de passe</p>
+                </header>
+                <!--     End  header Content  -->
+                <br>
+                <div class="field-set">
+
+                    <!--   user name -->
+                    <span class="input-item"><i class="fa fa-user-circle"></i></span>
+                    <!--   user name Input-->
+                    <input class="form-input" name="email" id="" type="email" placeholder="" value="" required>
+
+                    <br>
+                    <!--   Password -->
+                    <span class="input-item"><i class="fa fa-key"></i></span>
+                    <!--   Password Input-->
+                    <input class="form-input" type="password" placeholder="Password" id="pwd"  name="password" required>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <br>
+                    <!--        buttons -->
+                    <!--      button LogIn -->
+                    <button type="submit" class="log-in"> Log In </button>
+                </div>
+
+                <!--   End Conrainer  -->
             </div>
 
-        </div>
+            <!-- End Form -->
+        </form>
     </div>
-{% endblock %}
-
+{{ encore_entry_script_tags('login') }}
+</body>
+</html>
 
 {#{% extends 'base.html.twig' %}#}
 
