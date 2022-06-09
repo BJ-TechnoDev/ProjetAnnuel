@@ -1,0 +1,22 @@
+<header class="header" id="header">
+    <div class="header_toggle"> <i class="fa-solid fa-bars" id="header-toggle"></i></div>
+</header>
+<div class="l-navbar" id="nav-bar">
+    <nav class="nav">
+        <div>
+            <a href="#" class="nav_logo">
+                <i class="fa-solid fa-house"></i> <span class="nav_logo-name">Onyle</span>
+            </a>
+            <div class="nav_list">
+                <a href="#" class="nav_link active"> <i class="fa-solid fa-house"></i> <span class="nav_name">Onyle</span> </a>
+            </div>
+        </div>
+        <a href="#" class="nav_link"> <i class="fa-solid fa-user"></i>
+            {% if app.user %}
+                <span class="nav_name">Se déconnecter</span>
+            {% else %}
+                <span class="nav_name">Se connecter</span>
+            {% endif %}
+        </a>
+    </nav>
+</div>

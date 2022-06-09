@@ -3,3 +3,6 @@ import '../styles/app.scss';
 
 //lib js
 import '../bootstrap';
+
+//page js
+import './composant/navbar.js'

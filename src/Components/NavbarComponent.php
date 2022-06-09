@@ -4,8 +4,7 @@ namespace App\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('hello')]
-class HelloComponent
+#[AsTwigComponent('navbar')]
+class NavbarComponent
 {
-    public string $name;
 }
