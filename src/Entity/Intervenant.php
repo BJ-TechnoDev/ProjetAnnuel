@@ -6,7 +6,7 @@ use App\Repository\IntervenantRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=IntervenantRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\IntervenantRepository", repositoryClass=IntervenantRepository::class)
  */
 class Intervenant
 {
@@ -25,7 +25,7 @@ class Intervenant
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Prénom;
+    private $Prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -33,7 +33,7 @@ class Intervenant
     private $email;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $Telephone;
 
@@ -41,6 +41,11 @@ class Intervenant
      * @ORM\Column(type="string", length=255)
      */
     private $Adresse;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Roles;
 
     public function getId(): ?int
     {
@@ -59,14 +64,14 @@ class Intervenant
         return $this;
     }
 
-    public function getPrénom(): ?string
+    public function getPrenom(): ?string
     {
-        return $this->Prénom;
+        return $this->Prenom;
     }
 
-    public function setPrénom(string $Prénom): self
+    public function setPrenom(string $Prenom): self
     {
-        $this->Prénom = $Prénom;
+        $this->Prenom = $Prenom;
 
         return $this;
     }
@@ -83,12 +88,13 @@ class Intervenant
         return $this;
     }
 
-    public function getTelephone(): ?int
+
+    public function getTelephone(): ?string
     {
         return $this->Telephone;
     }
 
-    public function setTelephone(int $Telephone): self
+    public function setTelephone(string $Telephone): self
     {
         $this->Telephone = $Telephone;
 
@@ -103,6 +109,18 @@ class Intervenant
     public function setAdresse(string $Adresse): self
     {
         $this->Adresse = $Adresse;
+
+        return $this;
+    }
+
+    public function getRoles(): ?string
+    {
+        return $this->Roles;
+    }
+
+    public function setRoles(string $Roles): self
+    {
+        $this->Roles = $Roles;
 
         return $this;
     }
