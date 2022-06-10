@@ -1,6 +1,6 @@
 # Tout les changement apporter avec la date
 
-*jeremy* : **10/06/2022** : Redirection de la navbar
+*jeremy* : **10/06/2022** : Redirection de la navbar + composant contact
 
 *Bastien* : **09/06/2022** -> Page Login / Back css / BDD faite
 
