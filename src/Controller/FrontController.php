@@ -29,7 +29,7 @@ class FrontController extends AbstractController
 
             $message = (new Email())
                 ->from($contactFormData['email'])
-                ->to('')
+                ->to('jeremyrossi123@gmail.com')
                 ->subject($contactFormData['subject'])
                 ->text('Name: '.$contactFormData['fullName'].\PHP_EOL.'Subject: '.$contactFormData['subject'].\PHP_EOL.'Email: '.$contactFormData['email'].\PHP_EOL. 'Message: '.$contactFormData['message'],
                     'text/plain');
@@ -37,7 +37,7 @@ class FrontController extends AbstractController
 
             $this->addFlash('success', 'Your message has been sent');
 
-            return $this->redirectToRoute('contact');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('front/index.html.twig', [
