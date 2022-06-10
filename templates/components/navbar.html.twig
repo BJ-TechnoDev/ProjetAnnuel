@@ -12,12 +12,15 @@
                 <a href="#" class="nav_link active"> <i class="fa-solid fa-house"></i> <span class="nav_name">Onyle</span> </a>
             </div>
         </div>
-        <a href="#" class="nav_link"> <i class="fa-solid fa-user"></i>
             {% if app.user %}
+            <a href="{{ path('app_logout') }}" class="nav_link"> <i class="fa-solid fa-user"></i>
                 <span class="nav_name">Se déconnecter</span>
+            </a>
             {% else %}
+            <a href="{{ path('app_login') }}" class="nav_link"> <i class="fa-solid fa-user"></i>
                 <span class="nav_name">Se connecter</span>
+            </a>
             {% endif %}
-        </a>
+
     </nav>
 </div>
