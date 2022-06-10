@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+
+use App\Entity\Intervenant;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -22,13 +24,15 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('BjTechnoDev');
+            ->setTitle('Onyle');
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToRoute("Voir le site", "fa fa-eye", "homepage");
+        yield MenuItem::linkToDashboard('Accueil', 'fa fa-home');
+        yield MenuItem::linkToRoute("Accéder à vos contrat", "fa fa-eye", "homepage");
+        yield MenuItem::linkToCrud("Intervenant", "fa fa-eye", Intervenant::class);
+
     }
 
 }
