@@ -1,6 +1,13 @@
 # Tout les changement apporter avec la date
 
-*jeremy* : **10/06/2022** : Redirection de la navbar + composant contact + front login refais
+---
+
+**A faire** : 
+  - changer les couleurs contact
+
+---
+
+*jeremy* : **10/06/2022** : Redirection de la navbar + contact fait (back et front) + front login refais
 
 *Bastien* : **09/06/2022** -> Page Login / Back css / BDD faite
 

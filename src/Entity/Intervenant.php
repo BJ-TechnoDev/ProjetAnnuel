@@ -30,7 +30,7 @@ class Intervenant
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    private $Email;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -78,12 +78,12 @@ class Intervenant
 
     public function getEmail(): ?string
     {
-        return $this->email;
+        return $this->Email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $Email): self
     {
-        $this->email = $email;
+        $this->Email = $Email;
 
         return $this;
     }

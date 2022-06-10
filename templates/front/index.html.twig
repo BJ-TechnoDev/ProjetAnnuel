@@ -8,9 +8,43 @@
 
 {% block body %}
 
-{{ component('navbar', {}) }}
-{{ component('contact', {
-}) }}
+    {{ component('navbar') }}
+
+    <div class="container contact-container" id="contact">
+        <div class="row">
+            <h2>Nous contactez</h2>
+        </div>
+        <div class="row">
+            <h4 style="text-align:center">Si vous avez une question n'hésitez pas</h4>
+        </div>
+        <form class="row input-container">
+            {{ form_start(our_form, {'attr': {'class' : "row input-container"}}) }}
+            <div class="col-xs-12">
+                <div class="styled-input wide">
+                    {{ form_row(our_form.email, {'attr': {'placeholder':'Email@gmail.com'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="styled-input">
+                    {{ form_row(our_form.fullName) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="styled-input" style="float:right;">
+                    {{ form_row(our_form.subject, {'attr': {'placeholder':'L\'objet de votre demande'}}) }}
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="styled-input wide">
+                    {{ form_row(our_form.message, {'attr': {'placeholder':'Votre message'}}) }}
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <button type="submit" class="btn-lrg submit-btn">Send Message</button>
+            </div>
+            {{ form_end(our_form) }}
+    </div>
+
 
 {% endblock %}
 
