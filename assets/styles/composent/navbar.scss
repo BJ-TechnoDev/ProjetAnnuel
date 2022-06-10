@@ -1,13 +1,13 @@
 @import "https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap";
 
-  $header-height: 3rem;
-  $nav-width: 68px;
-  $first-color: #023165;
-  $first-color-light: #AFA5D9;
-  $white-color: #F7F6FB;
-  $body-font: 'Nunito', sans-serif;
-  $normal-font-size: 1rem;
-  $z-fixed: 100;
+$header-height: 3rem;
+$nav-width: 68px;
+$first-color: #023165;
+$first-color-light: #AFA5D9;
+$white-color: #F7F6FB;
+$body-font: 'Nunito', sans-serif;
+$normal-font-size: 1rem;
+$z-fixed: 100;
 
 * {
   box-sizing: border-box;
@@ -42,6 +42,11 @@ a {
   background-color: $white-color;
   z-index: $z-fixed;
   transition: .5s;
+  .titre-header{
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+  }
 }
 .header_toggle {
   color: $first-color;
