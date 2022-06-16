@@ -39,7 +39,8 @@ class ContratCrudController extends AbstractCrudController
                     'Mr' => 'Monsieur',
                     'Mme' => 'Madame'
                 ])
-                ->setColumns('col-4'),
+                ->setColumns('col-4')
+                ,
             TextField::new('nom')
                 ->setLabel('Nom de famille')
                 ->setRequired(true)
@@ -158,6 +159,25 @@ class ContratCrudController extends AbstractCrudController
                 ->setRequired(true)
                 ->setColumns('col-4')
         ];
+    }
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // the visible title at the top of the page and the content of the <title> element
+            // it can include these placeholders:
+            //   %entity_name%, %entity_as_string%,
+            //   %entity_id%, %entity_short_id%
+            //   %entity_label_singular%, %entity_label_plural%
+            ->setPageTitle('index', '%entity_label_plural% list')
+
+            // you can pass a PHP closure as the value of the title
+            ->setPageTitle('new', 'Créez un Contrat')
+
+            // in DETAIL and EDIT pages, the closure receives the current entity
+            // as the first argument
+            // the help message displayed to end users (it can contain HTML tags)
+            ->setPageTitle('edit', 'Modifier un Contrat')
+            ;
     }
 
 }
