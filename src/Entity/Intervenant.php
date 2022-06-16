@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\IntervenantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,21 @@ class Intervenant
      * @ORM\Column(type="string", length=255)
      */
     private $Roles;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Contrat::class, mappedBy="intervenant")
+     */
+    private $contrats;
+
+    public function __toString(): string
+    {
+        return $this->getNom().' '.$this->getPrenom();
+    }
+
+    public function __construct()
+    {
+        $this->contrats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +138,36 @@ class Intervenant
     public function setRoles(string $Roles): self
     {
         $this->Roles = $Roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contrat>
+     */
+    public function getContrats(): Collection
+    {
+        return $this->contrats;
+    }
+
+    public function addContrat(Contrat $contrat): self
+    {
+        if (!$this->contrats->contains($contrat)) {
+            $this->contrats[] = $contrat;
+            $contrat->setIntervenant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContrat(Contrat $contrat): self
+    {
+        if ($this->contrats->removeElement($contrat)) {
+            // set the owning side to null (unless already changed)
+            if ($contrat->getIntervenant() === $this) {
+                $contrat->setIntervenant(null);
+            }
+        }
 
         return $this;
     }

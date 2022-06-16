@@ -8,6 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class IntervenantCrudController extends AbstractCrudController
@@ -29,11 +31,11 @@ class IntervenantCrudController extends AbstractCrudController
                 ->setLabel('Prénom')
                 ->setRequired(true)
                 ->setColumns('col-6'),
-            TextField::new('Email')
+            EmailField::new('Email')
                 ->setLabel('Adresse e-mail')
                 ->setRequired(true)
                 ->setColumns('col-6'),
-            TextField::new('Telephone')
+            TelephoneField::new('Telephone')
                 ->setLabel('Numéro de Téléphone')
                 ->setRequired(true)
                 ->setColumns('col-6'),
@@ -43,7 +45,7 @@ class IntervenantCrudController extends AbstractCrudController
                 ->setColumns('col-12'),
             ChoiceField::new('Roles')
                 ->setLabel('Entrez le role')
-                ->renderExpanded()
+                ->autocomplete()
                 ->setChoices([
                     'Formateur' => 'Formateur',
                 ])
@@ -67,6 +69,30 @@ class IntervenantCrudController extends AbstractCrudController
             // as the first argument
             // the help message displayed to end users (it can contain HTML tags)
             ->setPageTitle('edit', 'Modifier un Formateur')
+            ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            // ...
+//            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
+                return $action->setLabel('Sauvegarder et continuer');
+            })
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
+                return $action->setLabel('Créer');
+            })
+            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+                return $action->setLabel('Ajouter un Formateur');
+            })
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
+                return $action->setLabel('Sauvegarder les changements');
+            })
+           ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+            // in PHP 7.4 and newer you can use arrow functions
+            // ->update(Crud::PAGE_INDEX, Action::NEW,
+            //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
             ;
     }
 
