@@ -37,9 +37,9 @@ class DashboardController extends AbstractDashboardController
 
     }
 
-    public function configureAssets(Assets $assets): Assets
+    public function configureAssets(): Assets
     {
-        return $assets
+        return parent::configureAssets()
             ->addWebpackEncoreEntry('easyadmin');
     }
 

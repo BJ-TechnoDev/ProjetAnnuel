@@ -1,4 +1,7 @@
 .doc-container{
+  a{
+    text-decoration: none;
+  }
   h2 {
     @include xs{
       font-size: 30px;
