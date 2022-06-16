@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 
+use App\Entity\Contrat;
 use App\Entity\Intervenant;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -30,8 +31,9 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Accueil', 'fa fa-home');
-        yield MenuItem::linkToCrud("Accéder à vos contrat", "fa fa-file-contract", Intervenant::class);
         yield MenuItem::linkToCrud("Intervenant", "fa fa-users", Intervenant::class);
+        yield MenuItem::linkToCrud("Accéder à vos contrat", "fa fa-file-contract", Contrat::class);
+        yield MenuItem::linkToRoute("Import Contrat", "fa fa-file-import", '#');
 
     }
 
