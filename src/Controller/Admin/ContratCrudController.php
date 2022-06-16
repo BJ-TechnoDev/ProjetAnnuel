@@ -28,16 +28,15 @@ class ContratCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            AssociationField::new("intervenant")
-                ->setLabel('Formateur')
-                ->setRequired(true)
-                ->setColumns('col-4'),
             DateField::new('dateDemande')
                 ->setLabel('Date Demande')
                 ->setRequired(true)
                 ->setColumns('col-4'),
             TextField::new('marqueOuEcole')
                 ->setLabel('Marque / Ecole')
+                ->setRequired(true)
+                ->setColumns('col-4'),
+            AssociationField::new("intervenant")
                 ->setRequired(true)
                 ->setColumns('col-4'),
             TextField::new('typeSociete')

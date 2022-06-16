@@ -60,7 +60,7 @@ class IntervenantCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', '%entity_label_plural% list')
+            ->setPageTitle('index', '%entity_label_plural% liste')
 
             // you can pass a PHP closure as the value of the title
             ->setPageTitle('new', 'Créez un Formateur')
@@ -90,6 +90,16 @@ class IntervenantCrudController extends AbstractCrudController
                 return $action->setLabel('Sauvegarder les changements');
             })
            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+
+            ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
+                return $action->setLabel('Retour à la liste');
+            })
+            ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action){
+                return $action->setLabel('Supprimer');
+            })
+            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action){
+                return $action->setLabel('Editer');
+            })
             // in PHP 7.4 and newer you can use arrow functions
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))

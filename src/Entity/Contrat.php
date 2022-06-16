@@ -18,7 +18,7 @@ class Contrat
     private $id;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
     private $etat;
 
@@ -63,7 +63,7 @@ class Contrat
     private $horaire;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
     private $ttcSst;
 
@@ -98,7 +98,7 @@ class Contrat
     private $promotion;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
     private $alternant;
 
