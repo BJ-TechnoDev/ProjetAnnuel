@@ -3,8 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contrat;
+use App\Entity\Intervenant;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -23,30 +28,16 @@ class ContratCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            AssociationField::new("intervenant")
+                ->setLabel('Formateur')
+                ->setRequired(true)
+                ->setColumns('col-4'),
             DateField::new('dateDemande')
                 ->setLabel('Date Demande')
                 ->setRequired(true)
                 ->setColumns('col-4'),
             TextField::new('marqueOuEcole')
                 ->setLabel('Marque / Ecole')
-                ->setRequired(true)
-                ->setColumns('col-4'),
-            ChoiceField::new('civilite')
-                ->setLabel('Civilite')
-                ->setRequired(true)
-                ->autocomplete()
-                ->setChoices([
-                    'Mr' => 'Monsieur',
-                    'Mme' => 'Madame'
-                ])
-                ->setColumns('col-4')
-                ,
-            TextField::new('nom')
-                ->setLabel('Nom de famille')
-                ->setRequired(true)
-                ->setColumns('col-4'),
-            TextField::new('prenom')
-                ->setLabel('Prénom')
                 ->setRequired(true)
                 ->setColumns('col-4'),
             TextField::new('typeSociete')
@@ -122,14 +113,6 @@ class ContratCrudController extends AbstractCrudController
                 ->setLabel('RP')
                 ->setRequired(true)
                 ->setColumns('col-4'),
-            TextField::new('telephone')
-                ->setLabel('Téléphone')
-                ->setRequired(true)
-                ->setColumns('col-4'),
-            TextField::new('mail')
-                ->setLabel('Mail')
-                ->setRequired(true)
-                ->setColumns('col-4'),
             TextField::new('typeRecrutement')
                 ->setLabel('Type Recrutement')
                 ->setRequired(true)
@@ -154,10 +137,25 @@ class ContratCrudController extends AbstractCrudController
                 ->setLabel('Niveau d\'Expertise en Pédagogique')
                 ->setRequired(true)
                 ->setColumns('col-4'),
-            TextField::new('niveauExpertisePro')
+            NumberField::new('niveauExpertisePro')
                 ->setLabel('Niveau d\'Expertise Matière Professionnelle')
                 ->setRequired(true)
-                ->setColumns('col-4')
+                ->setColumns('col-4'),
+            ChoiceField::new('etat')
+                ->setLabel('Etat')
+                ->autocomplete()
+                ->setChoices([
+                    'RH en cours de traitement' => 'RH en cours de traitement',
+                    'RH dossier complet mais à traiter' => 'RH dossier complet mais à traiter',
+                    'Contrat à faire - dossier complet' => 'Contrat à faire - dossier complet',
+                    'Attente documents' => 'Attente documents',
+                    'Ecart GP' => 'écart GP',
+                    'Annulé' => 'Annulé',
+                    'Fait' => 'Fait',
+                    'Envoyé' => 'Envoyé',
+                    'Signé' => 'Signé',
+                ])
+                ->setColumns('col-4'),
         ];
     }
     public function configureCrud(Crud $crud): Crud
@@ -168,7 +166,7 @@ class ContratCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', '%entity_label_plural% list')
+            ->setPageTitle('index', '%entity_label_plural% liste')
 
             // you can pass a PHP closure as the value of the title
             ->setPageTitle('new', 'Créez un Contrat')
@@ -177,6 +175,30 @@ class ContratCrudController extends AbstractCrudController
             // as the first argument
             // the help message displayed to end users (it can contain HTML tags)
             ->setPageTitle('edit', 'Modifier un Contrat')
+            ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            // ...
+//            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
+                return $action->setLabel('Sauvegarder et continuer');
+            })
+            ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
+                return $action->setLabel('Créer');
+            })
+            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+                return $action->setLabel('Ajouter un Contrat');
+            })
+            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
+                return $action->setLabel('Sauvegarder les changements');
+            })
+            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+            // in PHP 7.4 and newer you can use arrow functions
+            // ->update(Crud::PAGE_INDEX, Action::NEW,
+            //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
             ;
     }
 

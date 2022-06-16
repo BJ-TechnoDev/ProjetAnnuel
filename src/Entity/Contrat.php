@@ -33,21 +33,6 @@ class Contrat
     private $marqueOuEcole;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $civilite;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $nom;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $prenom;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $typeSociete;
@@ -127,15 +112,6 @@ class Contrat
      */
     private $rp;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $telephone;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mail;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -171,6 +147,12 @@ class Contrat
      * @ORM\Column(type="integer")
      */
     private $niveauExpertisePro;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Intervenant::class, inversedBy="contrats")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $intervenant;
 
     public function getId(): ?int
     {
@@ -225,29 +207,6 @@ class Contrat
         return $this;
     }
 
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): self
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(string $prenom): self
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
 
     public function getTypeSociete(): ?string
     {
@@ -441,29 +400,7 @@ class Contrat
         return $this;
     }
 
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
 
-    public function setTelephone(string $telephone): self
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): self
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
 
     public function getTypeRecrutement(): ?string
     {
@@ -545,6 +482,18 @@ class Contrat
     public function setNiveauExpertisePro(int $niveauExpertisePro): self
     {
         $this->niveauExpertisePro = $niveauExpertisePro;
+
+        return $this;
+    }
+
+    public function getIntervenant(): ?Intervenant
+    {
+        return $this->intervenant;
+    }
+
+    public function setIntervenant(?Intervenant $intervenant): self
+    {
+        $this->intervenant = $intervenant;
 
         return $this;
     }
