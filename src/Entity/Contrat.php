@@ -33,7 +33,7 @@ class Contrat
     private $marqueOuEcole;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean")
      */
     private $civilite;
 
