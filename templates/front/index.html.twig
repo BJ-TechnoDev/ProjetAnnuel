@@ -17,7 +17,11 @@
         <div class="row">
             <h4 style="text-align:center">Si vous avez une question n'hésitez pas</h4>
         </div>
-        <form class="row input-container">
+
+        <div class="row input-container">
+            {{ component('map') }}
+
+            <div class="col-6">
             {{ form_start(our_form, {'attr': {'class' : "row input-container"}}) }}
             <div class="col-xs-12">
                 <div class="styled-input wide">
@@ -43,6 +47,8 @@
                 <button type="submit" class="btn-lrg submit-btn">Send Message</button>
             </div>
             {{ form_end(our_form) }}
+            </div>
+        </div>
     </div>
 
 

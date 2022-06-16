@@ -43,10 +43,9 @@ class IntervenantCrudController extends AbstractCrudController
                 ->setColumns('col-12'),
             ChoiceField::new('Roles')
                 ->setLabel('Entrez le role')
-                ->autocomplete()
+                ->renderExpanded()
                 ->setChoices([
-                    'Formateur' => 'blue',
-                    'Admin' => 'red',
+                    'Formateur' => 'Formateur',
                 ])
         ];
     }

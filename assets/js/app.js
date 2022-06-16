@@ -6,3 +6,5 @@ import '../bootstrap';
 
 //page js
 import './composant/navbar.js'
+import './map.js'
+
