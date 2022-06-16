@@ -35,4 +35,7 @@
 #myDiv {
   visibility: hidden;
   text-align: center;
+  @include xs {
+    width: 100%;
+  }
 }

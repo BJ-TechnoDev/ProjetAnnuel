@@ -28,16 +28,10 @@ body {
 
   .styled-input {
     float: left;
-    width: 293px;
+    width: 100%;
     margin: 1rem 0;
     position: relative;
     border-radius: 4px;
-  }
-
-  @media only screen and (max-width: 768px) {
-    .styled-input {
-      width: 100%;
-    }
   }
 
   .styled-input label {
@@ -52,7 +46,7 @@ body {
   }
 
   .styled-input.wide {
-    width: 650px;
+    width: 100%;
     max-width: 100%;
   }
 
@@ -87,6 +81,31 @@ body {
   .input-container {
     max-width: 100%;
     margin: 20px 0 25px 0;
+    @include xs {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    @include lg {
+      flex-direction: row;
+    }
+    .col-6{
+      @include xs {
+        width: 100%;
+      }
+      @include lg {
+        width: 50%;
+      }
+    }
+    .col-md-6{
+      @include xs {
+        width: 100%;
+      }
+      @include lg {
+        width: 50%;
+      }
+    }
   }
 
   .submit-btn {
