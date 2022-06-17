@@ -159,12 +159,12 @@ class Contrat
         return $this->id;
     }
 
-    public function isEtat(): ?bool
+    public function getEtat(): ?string
     {
         return $this->etat;
     }
 
-    public function setEtat(bool $etat): self
+    public function setEtat(string $etat): self
     {
         $this->etat = $etat;
 
@@ -280,12 +280,12 @@ class Contrat
         return $this;
     }
 
-    public function isTtcSst(): ?bool
+    public function getTtcSst(): ?string
     {
         return $this->ttcSst;
     }
 
-    public function setTtcSst(bool $ttcSst): self
+    public function setTtcSst(string $ttcSst): self
     {
         $this->ttcSst = $ttcSst;
 
@@ -364,12 +364,12 @@ class Contrat
         return $this;
     }
 
-    public function isAlternant(): ?bool
+    public function getAlternant(): ?string
     {
         return $this->alternant;
     }
 
-    public function setAlternant(bool $alternant): self
+    public function setAlternant(string $alternant): self
     {
         $this->alternant = $alternant;
 

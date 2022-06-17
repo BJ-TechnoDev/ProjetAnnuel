@@ -66,7 +66,6 @@ class ContratCrudController extends AbstractCrudController
             ChoiceField::new('ttcSst')
                 ->setLabel('TTC/SST')
                 ->setRequired(true)
-                ->autocomplete()
                 ->setChoices([
                     'TTC' => 'TTC',
                     'SST' => 'SST'
@@ -141,7 +140,7 @@ class ContratCrudController extends AbstractCrudController
                 ->setRequired(true)
                 ->setColumns('col-4'),
             ChoiceField::new('etat')
-                ->setLabel('Etat')
+                ->setLabel('Etat (Valeur actuelle)')
                 ->autocomplete()
                 ->setChoices([
                     'RH en cours de traitement' => 'RH en cours de traitement',
