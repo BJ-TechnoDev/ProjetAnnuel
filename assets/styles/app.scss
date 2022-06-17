@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&display=swap');
+
 @import "~bootstrap/scss/bootstrap";
 @import "@fortawesome/fontawesome-free/css/all.css";
 
@@ -11,3 +13,7 @@
 @import "composent/contact";
 @import "composent/doc";
 @import "composent/map";
+
+body{
+  font-family: 'Arimo', sans-serif;
+}
