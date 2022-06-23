@@ -54,6 +54,11 @@ class Intervenant
      */
     private $contrats;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $societe;
+
     public function __toString(): string
     {
         return $this->getNom().' '.$this->getPrenom();
@@ -168,6 +173,18 @@ class Intervenant
                 $contrat->setIntervenant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSociete(): ?string
+    {
+        return $this->societe;
+    }
+
+    public function setSociete(?string $societe): self
+    {
+        $this->societe = $societe;
 
         return $this;
     }

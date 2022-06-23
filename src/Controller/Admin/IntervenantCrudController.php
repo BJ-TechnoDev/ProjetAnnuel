@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class IntervenantCrudController extends AbstractCrudController
 {
@@ -46,9 +47,14 @@ class IntervenantCrudController extends AbstractCrudController
             ChoiceField::new('Roles')
                 ->setLabel('Entrez le role')
                 ->autocomplete()
+                ->setColumns('col-6')
                 ->setChoices([
                     'Intervenant' => 'Intervenant',
                 ])
+            TextField::new('societe')
+                ->setLabel('Societe')
+                ->setRequired(false)
+                ->setColumns('col-6')
         ];
     }
 
