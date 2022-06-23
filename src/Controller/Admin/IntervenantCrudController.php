@@ -50,7 +50,7 @@ class IntervenantCrudController extends AbstractCrudController
                 ->setColumns('col-6')
                 ->setChoices([
                     'Intervenant' => 'Intervenant',
-                ])
+                ]),
             TextField::new('societe')
                 ->setLabel('Societe')
                 ->setRequired(false)
