@@ -102,7 +102,10 @@ class UserCrudController extends AbstractCrudController
             // in PHP 7.4 and newer you can use arrow functions
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN')
+//            ->setPermission(Action::SA, 'ROLE_ADMIN')
             ;
+
     }
 
 
