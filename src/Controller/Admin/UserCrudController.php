@@ -2,56 +2,55 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Intervenant;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\HiddenField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-class IntervenantCrudController extends AbstractCrudController
+class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Intervenant::class;
+        return User::class;
     }
 
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('Nom')
-                ->setLabel('Nom de famille')
-                ->setRequired(true)
-                ->setColumns('col-6'),
-            TextField::new('Prenom')
-                ->setLabel('Prénom')
-                ->setRequired(true)
-                ->setColumns('col-6'),
-            EmailField::new('Email')
+            EmailField::new('email')
                 ->setLabel('Adresse e-mail')
                 ->setRequired(true)
                 ->setColumns('col-6'),
-            TelephoneField::new('Telephone')
-                ->setLabel('Numéro de Téléphone')
+            TextField::new('password')
+                ->setLabel('Entrez le mot de passe')
                 ->setRequired(true)
-                ->setColumns('col-6'),
-            TextField::new('Adresse')
-                ->setLabel('Adresse postale')
-                ->setRequired(true)
-                ->setColumns('col-12'),
-            ChoiceField::new('Roles')
+                ->setColumns('col-6')
+                ->hideOnIndex()
+                ->setFormType(PasswordType::class),
+            ChoiceField::new('roles')
+                ->allowMultipleChoices()
                 ->setLabel('Entrez le role')
                 ->autocomplete()
                 ->setChoices([
-                    'Intervenant' => 'Intervenant',
+                    'Admin' => 'ROLE_ADMIN',
+                    'Ressource Humaines' => 'ROLE_RH',
+                    'Service Contrat' => 'ROLE_SC',
+                    'Responsable Pédagogique' => 'ROLE_RP',
+                    'Responsable Admission' => 'ROLE_RA',
                 ])
         ];
-    }
 
+    }
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -60,15 +59,15 @@ class IntervenantCrudController extends AbstractCrudController
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', '%entity_label_plural% liste')
+            ->setPageTitle('index', 'Utilisateur liste')
 
             // you can pass a PHP closure as the value of the title
-            ->setPageTitle('new', 'Créez un Intervenant')
+            ->setPageTitle('new', 'Créez un Utilisateur')
 
             // in DETAIL and EDIT pages, the closure receives the current entity
             // as the first argument
             // the help message displayed to end users (it can contain HTML tags)
-            ->setPageTitle('edit', 'Modifier un Intervenant')
+            ->setPageTitle('edit', 'Modifier un Utilisateur')
             ;
     }
 
@@ -84,12 +83,12 @@ class IntervenantCrudController extends AbstractCrudController
                 return $action->setLabel('Créer');
             })
             ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->setLabel('Ajouter un Intervenant');
+                return $action->setLabel('Ajouter un Utilisateur');
             })
             ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
                 return $action->setLabel('Sauvegarder les changements');
             })
-           ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
 
             ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
                 return $action->setLabel('Retour à la liste');
@@ -106,4 +105,15 @@ class IntervenantCrudController extends AbstractCrudController
             ;
     }
 
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::persistEntity($entityManager, $entityInstance);
+       // TODO: Change the autogenerated stub
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance); // TODO: Change the autogenerated stub
+    }
 }
