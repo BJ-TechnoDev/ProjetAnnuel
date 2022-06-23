@@ -69,6 +69,11 @@ class Intervenant
      */
     private $mail_contact;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type_societe;
+
     public function __toString(): string
     {
         return $this->getNom().' '.$this->getPrenom();
@@ -219,6 +224,18 @@ class Intervenant
     public function setMailContact(string $mail_contact): self
     {
         $this->mail_contact = $mail_contact;
+
+        return $this;
+    }
+
+    public function getTypeSociete(): ?string
+    {
+        return $this->type_societe;
+    }
+
+    public function setTypeSociete(string $type_societe): self
+    {
+        $this->type_societe = $type_societe;
 
         return $this;
     }
