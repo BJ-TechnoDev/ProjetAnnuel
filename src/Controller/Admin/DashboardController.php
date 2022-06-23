@@ -34,8 +34,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Accueil', 'fa fa-home');
         yield MenuItem::section('Accès au site');
         yield MenuItem::linkToRoute("Accéder à votre site", 'fa fa-arrow-right-to-bracket', 'homepage');
-        yield MenuItem::section('Users');
-        yield MenuItem::linkToCrud("Formateur", "fa fa-users", Intervenant::class);
+        yield MenuItem::section('Intervenants');
+        yield MenuItem::linkToCrud("Intervenant", "fa fa-users", Intervenant::class);
         yield MenuItem::section('Demande de Contrat');
         yield MenuItem::linkToCrud("Accéder à vos contrat", "fa fa-file-contract", Contrat::class);
         yield MenuItem::section('Import / Export');
