@@ -59,6 +59,16 @@ class Intervenant
      */
     private $societe;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $numero_contact;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $mail_contact;
+
     public function __toString(): string
     {
         return $this->getNom().' '.$this->getPrenom();
@@ -185,6 +195,30 @@ class Intervenant
     public function setSociete(?string $societe): self
     {
         $this->societe = $societe;
+
+        return $this;
+    }
+
+    public function getNumeroContact(): ?string
+    {
+        return $this->numero_contact;
+    }
+
+    public function setNumeroContact(string $numero_contact): self
+    {
+        $this->numero_contact = $numero_contact;
+
+        return $this;
+    }
+
+    public function getMailContact(): ?string
+    {
+        return $this->mail_contact;
+    }
+
+    public function setMailContact(string $mail_contact): self
+    {
+        $this->mail_contact = $mail_contact;
 
         return $this;
     }
