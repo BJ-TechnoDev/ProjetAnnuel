@@ -53,8 +53,20 @@ class IntervenantCrudController extends AbstractCrudController
                 ]),
             TextField::new('societe')
                 ->setLabel('Societe')
-                ->setRequired(false)
-                ->setColumns('col-6')
+                ->setRequired(true)
+                ->setColumns('col-6'),
+            TelephoneField::new('numero_contact')
+                ->setLabel('Numero de contact')
+                ->setRequired(true)
+                ->setColumns('col-6'),
+            EmailField::new('mail_contact')
+                ->setLabel('Mail de contact')
+                ->setRequired(true)
+                ->setColumns('col-6'),
+            TextField::new('type_societe')
+                ->setLabel('Type de societe')
+                ->setRequired(true)
+                ->setColumns('col-12')
         ];
     }
 
