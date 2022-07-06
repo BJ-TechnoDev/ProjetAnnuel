@@ -10,6 +10,38 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Contrat
 {
+    public function getExportData()
+    {
+        return \array_merge([
+            'Date Demande' => $this->dateDemande->format('d.m.Y H:m'),
+            'Marque / Ecole' => $this->marqueOuEcole,
+            'Intervenant' => $this->intervenant,
+            'Societe' => $this->typeSociete,
+            'Commentaires' =>$this->commentaire,
+            'Statut Contrat' =>$this->statusContrat,
+            'Type de Mission' =>$this->typeMission,
+            'Tarif a appliquer' =>$this->tarif,
+            'Horaire ou Forfaite' =>$this->horaire,
+            'TTC/SST' =>$this->ttcSst,
+            'Volume Horaire' =>$this->volumeHoraire,
+            'Unite' =>$this->unite,
+            'Date Debut' =>$this->dateDebut->format('d.m.Y H:m'),
+            'Date Fin' =>$this->dateFin->format('d.m.Y H:m'),
+            'Matiere' =>$this->matiere,
+            'Promotion' =>$this->promotion,
+            'Alternant/Initial' =>$this->alternant,
+            'Periode' =>$this->periode,
+            'RP' =>$this->rp,
+            'Type Recrutement' =>$this->typeRecrutement,
+            'Diplome le plus eleve' =>$this->DiplomeLePlusEleve,
+            'Domaine de Compétence Principal' =>$this->domaineCompetence1,
+            'Domaine de Compétence 2' =>$this->domaineCompetence2,
+            'Domaine de Compétence 3' =>$this->domaineCompetence3,
+            'Niveau d\'Expertise en Pédagogique' =>$this->niveauExpertisePedagogique,
+            'Niveau d\'Expertise Matière Professionnelle' =>$this->niveauExpertisePro,
+            'Etat (Valeur actuelle)' =>$this->etat,
+        ]);
+    }
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

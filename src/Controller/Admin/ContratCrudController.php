@@ -3,15 +3,20 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contrat;
+use App\Service\CsvService;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\HttpFoundation\Request;
 
 class ContratCrudController extends AbstractCrudController
 {
@@ -20,6 +25,11 @@ class ContratCrudController extends AbstractCrudController
         return Contrat::class;
     }
 
+    private CsvService $csvService;
+
+    public function __construct(CsvService $csvService){
+        $this->csvService = $csvService;
+    }
 
     public function configureFields(string $pageName): iterable
     {
@@ -174,12 +184,30 @@ class ContratCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
             // ...
 //            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
-                return $action->setLabel('Sauvegarder et continuer');
-            })
+//            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
+//                return $action->setLabel('Sauvegarder et continuer');
+//            })
+//            ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
+//                return $action->setLabel('Créer');
+//            })
+//            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+//                return $action->setLabel('Ajouter un Contrat');
+//            })
+//            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
+//                return $action->setLabel('Sauvegarder les changements');
+//            })
+//            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+
+            $export = Action::new('export', 'Export')
+                ->setIcon('fa fa-download')
+                ->linkToCrudAction('export')
+                ->setCssClass('btn')
+                ->createAsGlobalAction();
+
+            return $actions->add(Crud::PAGE_INDEX, $export)
+                ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
             ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
                 return $action->setLabel('Créer');
             })
@@ -189,11 +217,28 @@ class ContratCrudController extends AbstractCrudController
             ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
                 return $action->setLabel('Sauvegarder les changements');
             })
-            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE);
+
             // in PHP 7.4 and newer you can use arrow functions
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
-            ;
+
+    }
+
+    public function export(Request $request){
+        $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
+        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+        $filters = $this->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+        $contrats = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
+            ->getQuery()
+            ->getResult();
+
+        $data = [];
+        foreach ($contrats as $contrat){
+            $data[] = $contrat->getExportData();
+        }
+
+        return $this->csvService->export($data, 'export_contrats_'.date_create()->format('d-m-y').'.csv');
     }
 
 }
