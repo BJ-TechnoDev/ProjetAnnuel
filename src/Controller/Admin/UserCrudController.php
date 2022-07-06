@@ -103,7 +103,7 @@ class UserCrudController extends AbstractCrudController
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
             ->setPermission(Action::DELETE, 'ROLE_ADMIN')
-//            ->setPermission(Action::SA, 'ROLE_ADMIN')
+            ->setPermission(Action::NEW, 'ROLE_ADMIN')
             ;
 
     }

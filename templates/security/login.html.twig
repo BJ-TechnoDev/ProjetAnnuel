@@ -4,10 +4,11 @@
     <title>Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href=""/>
+    <link rel="shortcut icon" href="{{ asset('build/favicon 2.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
      {{ encore_entry_link_tags('login') }}
+
 </head>
 <body>
 
@@ -25,6 +26,9 @@
                 <!--     End  header Content  -->
                 <br>
                 <div class="field-set">
+                    {% if error %}
+                        <div class="text-center color-text" style="color: black; size: 15px">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
 
                     <!--   user name -->
                     <span class="input-item"><i class="fa fa-user-circle"></i></span>
@@ -43,6 +47,7 @@
                     <!--      button LogIn -->
                     <button type="submit" class="log-in"> Log In </button>
                 </div>
+
 
                 <!--   End Conrainer  -->
             </div>
