@@ -95,6 +95,7 @@ class IntervenantCrudController extends AbstractCrudController
         return $actions
             // ...
 //            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
                 return $action->setLabel('Sauvegarder et continuer');
             })

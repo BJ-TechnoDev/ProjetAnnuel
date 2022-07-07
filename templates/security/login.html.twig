@@ -26,9 +26,7 @@
                 <!--     End  header Content  -->
                 <br>
                 <div class="field-set">
-                    {% if error %}
-                        <div class="text-center color-text" style="color: black; size: 15px">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
+
 
                     <!--   user name -->
                     <span class="input-item"><i class="fa fa-user-circle"></i></span>
@@ -47,6 +45,10 @@
                     <!--      button LogIn -->
                     <button type="submit" class="log-in"> Log In </button>
                 </div>
+                {% if error %}
+                    <div class="text-center color-text" style="color: red; font-size: 15px"><strong>{{ error.messageKey|trans(error.messageData, 'security') }}
+                        </strong></div>
+                {% endif %}
 
 
                 <!--   End Conrainer  -->

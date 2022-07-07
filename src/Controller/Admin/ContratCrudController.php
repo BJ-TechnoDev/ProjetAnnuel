@@ -16,10 +16,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 
 class ContratCrudController extends AbstractCrudController
 {
+
     public static function getEntityFqcn(): string
     {
         return Contrat::class;
@@ -206,7 +208,15 @@ class ContratCrudController extends AbstractCrudController
                 ->setCssClass('btn')
                 ->createAsGlobalAction();
 
+            $import = Action::new('import', 'Import')
+                ->setIcon('fa fa-file-import')
+                ->linkToCrudAction('import')
+                ->setCssClass('btn')
+                ->createAsGlobalAction();
+
             return $actions->add(Crud::PAGE_INDEX, $export)
+                ->add(Crud::PAGE_INDEX, $import)
+                ->add(Crud::PAGE_INDEX, Action::DETAIL)
                 ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
             ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
                 return $action->setLabel('Créer');
@@ -240,5 +250,24 @@ class ContratCrudController extends AbstractCrudController
 
         return $this->csvService->export($data, 'export_contrats_'.date_create()->format('d-m-y').'.csv');
     }
+
+    public function import(Request $request)
+    {
+        $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
+        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+        $filters = $this->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+        $contrats = $this->csvService->import($request->files->get('csv')->getPathname());
+
+        foreach ($contrats as $contrat) {
+            // Denormalizes data back into an Order object
+            $data = $this->denormalizer->denormalize($contrat, Contrat::class);
+            // Then validate the entity and persist it if there's no validation error
+            // ...
+        }
+
+        $this->entityManager->flush();
+    }
+
+
 
 }

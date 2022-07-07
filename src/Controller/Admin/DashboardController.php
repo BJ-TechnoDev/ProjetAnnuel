@@ -42,7 +42,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Demande de Contrat');
         yield MenuItem::linkToCrud("Accéder à vos contrat", "fa fa-file-contract", Contrat::class);
         yield MenuItem::section('Import / Export');
-        yield MenuItem::linkToRoute("Import Contrat", "fa fa-file-arrow-down", '#');
         yield MenuItem::LinkToCrud("Import Maquette", 'fa fa-laptop-file', Intervenant::class);
         yield MenuItem::linkToRoute("Export en GoogleSheet", 'fa fa-file-arrow-up', '#');
         yield MenuItem::section('Se Déconnecter');
