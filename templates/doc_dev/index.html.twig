@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projet annuel</title>
+    <meta name="description" content="{% block metadescription %}{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Spartan&display=swap">
+    <link rel="shortcut icon" href="{{ asset('build/favicon 2.ico') }}" type="image/x-icon">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+        {{ encore_entry_link_tags('docdev') }}
+</head>
+<body>
+
+<h1 class="text-center">Documentation pour les nouveaux developpeurs</h1>
+
+<a href="{{ path('homepage') }}">Revenir à la page d'accueil</a>
+
+    {{ encore_entry_script_tags('docdev') }}
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>
