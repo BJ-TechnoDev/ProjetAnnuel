@@ -96,6 +96,23 @@ class IntervenantCrudController extends AbstractCrudController
             // ...
 //            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+
+            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
+                return $action->setLabel('Detail');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::BATCH_DELETE, function (Action $action){
+                return $action->setLabel('Supprimer');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
+                return $action->setLabel('Modifier');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
+                return $action->setLabel('Supprimer');
+            })
+
             ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
                 return $action->setLabel('Sauvegarder et continuer');
             })

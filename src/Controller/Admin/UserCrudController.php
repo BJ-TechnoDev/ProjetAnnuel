@@ -102,11 +102,29 @@ class UserCrudController extends AbstractCrudController
             ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action){
                 return $action->setLabel('Editer');
             })
+
+            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
+                return $action->setLabel('Detail');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::BATCH_DELETE, function (Action $action){
+                return $action->setLabel('Supprimer');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
+                return $action->setLabel('Modifier');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
+                return $action->setLabel('Supprimer');
+            })
             // in PHP 7.4 and newer you can use arrow functions
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
             ->setPermission(Action::DELETE, 'ROLE_ADMIN')
+            ->setPermission(Action::EDIT, 'ROLE_ADMIN')
             ->setPermission(Action::NEW, 'ROLE_ADMIN')
+            ->setPermission(Action::BATCH_DELETE, 'ROLE_ADMIN')
             ;
 
     }

@@ -215,9 +215,41 @@ class ContratCrudController extends AbstractCrudController
                 ->createAsGlobalAction();
 
             return $actions->add(Crud::PAGE_INDEX, $export)
+
                 ->add(Crud::PAGE_INDEX, $import)
+
                 ->add(Crud::PAGE_INDEX, Action::DETAIL)
+
                 ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
+
+
+
+            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
+                return $action->setLabel('Detail');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::BATCH_DELETE, function (Action $action){
+                return $action->setLabel('Supprimer');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
+                return $action->setLabel('Modifier');
+            })
+
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
+                return $action->setLabel('Supprimer');
+            })
+
+            ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
+                return $action->setLabel('Retour à la liste');
+            })
+            ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action){
+                return $action->setLabel('Supprimer');
+            })
+            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action){
+                return $action->setLabel('Editer');
+            })
+
             ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
                 return $action->setLabel('Créer');
             })
