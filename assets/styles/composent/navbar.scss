@@ -39,17 +39,19 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
-  background-color: $first-color-light;
+  background-color: $first-color;
   z-index: $z-fixed;
   transition: .5s;
-  .titre-header{
+
+  .titre-header {
+    color: $white-color;
     width: 100%;
     text-align: center;
     font-size: 30px;
   }
 }
 .header_toggle {
-  color: $first-color;
+  color: $white-color;
   font-size: 1.5rem;
   cursor: pointer;
 }
