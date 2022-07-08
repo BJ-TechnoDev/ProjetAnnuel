@@ -92,9 +92,14 @@ class Intervenant
      */
     private $type_societe;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $volume_horaire;
+
     public function __toString(): string
     {
-        return $this->getNom().' '.$this->getPrenom();
+        return $this->getNom() . ' ' . $this->getPrenom();
     }
 
     public function __construct()
@@ -254,6 +259,18 @@ class Intervenant
     public function setTypeSociete(string $type_societe): self
     {
         $this->type_societe = $type_societe;
+
+        return $this;
+    }
+
+    public function getVolumeHoraire(): ?int
+    {
+        return $this->volume_horaire;
+    }
+
+    public function setVolumeHoraire(int $volume_horaire): self
+    {
+        $this->volume_horaire = $volume_horaire;
 
         return $this;
     }

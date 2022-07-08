@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Matiere;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -28,8 +27,7 @@ class MatiereCrudController extends AbstractCrudController
                 ]),
             TextField::new('volume_heure')
                 ->setLabel('Volume Horaire'),
-            AssociationField::new('classes')
         ];
+//        TODO Réglé le problème de la relation avec classe
     }
-
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ContratRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -180,6 +182,16 @@ class Contrat
      * @ORM\JoinColumn(nullable=false)
      */
     private $intervenant;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Matiere::class, mappedBy="contrat")
+     */
+    private $matiere;
+
+    public function __construct()
+    {
+        $this->matiere = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -509,6 +521,36 @@ class Contrat
     public function setIntervenant(?Intervenant $intervenant): self
     {
         $this->intervenant = $intervenant;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Matiere>
+     */
+    public function getMatiere(): Collection
+    {
+        return $this->matiere;
+    }
+
+    public function addMatiere(Matiere $matiere): self
+    {
+        if (!$this->matiere->contains($matiere)) {
+            $this->matiere[] = $matiere;
+            $matiere->setContrat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatiere(Matiere $matiere): self
+    {
+        if ($this->matiere->removeElement($matiere)) {
+            // set the owning side to null (unless already changed)
+            if ($matiere->getContrat() === $this) {
+                $matiere->setContrat(null);
+            }
+        }
 
         return $this;
     }

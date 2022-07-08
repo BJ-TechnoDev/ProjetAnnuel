@@ -98,7 +98,7 @@ class ContratCrudController extends AbstractCrudController
                 ->setLabel('Date Fin')
                 ->setRequired(true)
                 ->setColumns('col-4'),
-            TextField::new('matiere')
+           AssociationField::new('matiere')
                 ->setLabel('Matière')
                 ->setRequired(true)
                 ->setColumns('col-4'),

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\MatiereRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,20 +32,19 @@ class Matiere
      */
     private $volume_heure;
 
+
     /**
-     * @ORM\ManyToMany(targetEntity=Classe::class, mappedBy="matiere")
+     * @ORM\ManyToOne(targetEntity=Contrat::class, inversedBy="matiere")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $classes;
+    private $contrat;
+
 
     public function __toString(): string
     {
         return $this->getNom();
     }
 
-    public function __construct()
-    {
-        $this->classes = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -90,29 +87,15 @@ class Matiere
         return $this;
     }
 
-    /**
-     * @return Collection<int, Classe>
-     */
-    public function getClasses(): Collection
+
+    public function getContrat(): ?Contrat
     {
-        return $this->classes;
+        return $this->contrat;
     }
 
-    public function addClass(Classe $class): self
+    public function setContrat(?Contrat $contrat): self
     {
-        if (!$this->classes->contains($class)) {
-            $this->classes[] = $class;
-            $class->addMatiere($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClass(Classe $class): self
-    {
-        if ($this->classes->removeElement($class)) {
-            $class->removeMatiere($this);
-        }
+        $this->contrat = $contrat;
 
         return $this;
     }

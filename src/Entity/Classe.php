@@ -25,25 +25,26 @@ class Classe
     private $nom;
 
     /**
-     * @ORM\ManyToMany(targetEntity=matiere::class, inversedBy="classes")
-     */
-    private $matiere;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="classe")
      * @ORM\JoinColumn(nullable=false)
      */
     private $promo;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Matiere::class)
+     */
+    private $matiere;
+
+    public function __construct()
+    {
+        $this->matiere = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
         return $this->getNom();
     }
 
-    public function __construct()
-    {
-        $this->matiere = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -62,30 +63,6 @@ class Classe
         return $this;
     }
 
-    /**
-     * @return Collection<int, matiere>
-     */
-    public function getMatiere(): Collection
-    {
-        return $this->matiere;
-    }
-
-    public function addMatiere(matiere $matiere): self
-    {
-        if (!$this->matiere->contains($matiere)) {
-            $this->matiere[] = $matiere;
-        }
-
-        return $this;
-    }
-
-    public function removeMatiere(matiere $matiere): self
-    {
-        $this->matiere->removeElement($matiere);
-
-        return $this;
-    }
-
     public function getPromo(): ?Promo
     {
         return $this->promo;
@@ -97,4 +74,29 @@ class Classe
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Matiere>
+     */
+    public function getMatiere(): Collection
+    {
+        return $this->matiere;
+    }
+
+    public function addMatiere(Matiere $matiere): self
+    {
+        if (!$this->matiere->contains($matiere)) {
+            $this->matiere[] = $matiere;
+        }
+
+        return $this;
+    }
+
+    public function removeMatiere(Matiere $matiere): self
+    {
+        $this->matiere->removeElement($matiere);
+
+        return $this;
+    }
+
 }
