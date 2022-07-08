@@ -48,6 +48,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute("Export en GoogleSheet", 'fa fa-file-arrow-up', '#');
         yield MenuItem::section('Se Déconnecter')->setCssClass('text-black');
         yield MenuItem::linkToLogout('Déconnexion', 'fa fa-right-to-bracket');
+//        TODO bien penser a faire l'easyadmin pour maquette/classe/matiere
 
     }
 

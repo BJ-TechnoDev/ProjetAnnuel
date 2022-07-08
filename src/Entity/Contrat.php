@@ -27,7 +27,7 @@ class Contrat
             'Unite' =>$this->unite,
             'Date Debut' =>$this->dateDebut->format('d.m.Y H:m'),
             'Date Fin' =>$this->dateFin->format('d.m.Y H:m'),
-            'Matiere' =>$this->matiere,
+//            'Matiere' =>$this->matiere,
             'Promotion' =>$this->promotion,
             'Alternant/Initial' =>$this->alternant,
             'Periode' =>$this->periode,
@@ -122,11 +122,6 @@ class Contrat
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $matiere;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $promotion;
 
     /**
@@ -185,6 +180,12 @@ class Contrat
      * @ORM\JoinColumn(nullable=false)
      */
     private $intervenant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Matiere::class, inversedBy="contrats")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $matiere;
 
     public function getId(): ?int
     {
@@ -372,18 +373,6 @@ class Contrat
         return $this;
     }
 
-    public function getMatiere(): ?string
-    {
-        return $this->matiere;
-    }
-
-    public function setMatiere(string $matiere): self
-    {
-        $this->matiere = $matiere;
-
-        return $this;
-    }
-
     public function getPromotion(): ?string
     {
         return $this->promotion;
@@ -526,6 +515,18 @@ class Contrat
     public function setIntervenant(?Intervenant $intervenant): self
     {
         $this->intervenant = $intervenant;
+
+        return $this;
+    }
+
+    public function getMatiere(): ?Matiere
+    {
+        return $this->matiere;
+    }
+
+    public function setMatiere(?Matiere $matiere): self
+    {
+        $this->matiere = $matiere;
 
         return $this;
     }
