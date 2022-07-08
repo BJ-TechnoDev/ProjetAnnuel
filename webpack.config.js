@@ -23,6 +23,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('easyadmin', './assets/js/easyadmin.js')
     .addEntry('login', './assets/js/login.js')
+    .addEntry('docdev', './assets/js/docdev.js')
     .copyFiles({
         from: './assets/images'
     })
