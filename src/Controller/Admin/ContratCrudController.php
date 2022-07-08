@@ -4,6 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contrat;
 use App\Service\CsvService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr\Select;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -16,8 +19,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class ContratCrudController extends AbstractCrudController
 {
@@ -29,7 +36,7 @@ class ContratCrudController extends AbstractCrudController
 
     private CsvService $csvService;
 
-    public function __construct(CsvService $csvService){
+    public function __construct(CsvService $csvService, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer){
         $this->csvService = $csvService;
     }
 
@@ -167,41 +174,13 @@ class ContratCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            // the visible title at the top of the page and the content of the <title> element
-            // it can include these placeholders:
-            //   %entity_name%, %entity_as_string%,
-            //   %entity_id%, %entity_short_id%
-            //   %entity_label_singular%, %entity_label_plural%
             ->setPageTitle('index', '%entity_label_plural% liste')
-
-            // you can pass a PHP closure as the value of the title
             ->setPageTitle('new', 'Créez un Contrat')
-
-            // in DETAIL and EDIT pages, the closure receives the current entity
-            // as the first argument
-            // the help message displayed to end users (it can contain HTML tags)
-            ->setPageTitle('edit', 'Modifier un Contrat')
-            ;
+            ->setPageTitle('edit', 'Modifier un Contrat');
     }
 
     public function configureActions(Actions $actions): Actions
     {
-            // ...
-//            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
-//            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
-//                return $action->setLabel('Sauvegarder et continuer');
-//            })
-//            ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
-//                return $action->setLabel('Créer');
-//            })
-//            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-//                return $action->setLabel('Ajouter un Contrat');
-//            })
-//            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
-//                return $action->setLabel('Sauvegarder les changements');
-//            })
-//            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
-
             $export = Action::new('export', 'Export')
                 ->setIcon('fa fa-download')
                 ->linkToCrudAction('export')
@@ -214,57 +193,52 @@ class ContratCrudController extends AbstractCrudController
                 ->setCssClass('btn')
                 ->createAsGlobalAction();
 
-            return $actions->add(Crud::PAGE_INDEX, $export)
+        $exportContratCasparCas = Action::new('exportContrat');
 
+            return $actions
+
+                ->add(Crud::PAGE_INDEX, $export)
                 ->add(Crud::PAGE_INDEX, $import)
-
                 ->add(Crud::PAGE_INDEX, Action::DETAIL)
 
+                ->addBatchAction(Action::new($exportContratCasparCas,'Exporter')
+                ->linkToCrudAction('exportContrat')
+                ->addCssClass('btn')
+                ->setIcon('fa fa-download'))
+
                 ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
+                ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
 
-
-
-            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
-                return $action->setLabel('Detail');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::BATCH_DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
-                return $action->setLabel('Modifier');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
-
-            ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
-                return $action->setLabel('Retour à la liste');
-            })
-            ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
-            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action){
-                return $action->setLabel('Editer');
-            })
-
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
-                return $action->setLabel('Créer');
-            })
-            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->setLabel('Ajouter un Contrat');
-            })
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
-                return $action->setLabel('Sauvegarder les changements');
-            })
-            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE);
-
-            // in PHP 7.4 and newer you can use arrow functions
-            // ->update(Crud::PAGE_INDEX, Action::NEW,
-            //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
-
+                ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
+                    return $action->setLabel('Detail');
+                })
+                ->update(Crud::PAGE_INDEX, Action::BATCH_DELETE, function (Action $action){
+                    return $action->setLabel('Supprimer');
+                })
+                ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
+                    return $action->setLabel('Modifier');
+                })
+                ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
+                    return $action->setLabel('Supprimer');
+                })
+                ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
+                    return $action->setLabel('Retour à la liste');
+                })
+                ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action){
+                    return $action->setLabel('Supprimer');
+                })
+                ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action){
+                    return $action->setLabel('Editer');
+                })
+                ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
+                    return $action->setLabel('Créer');
+                })
+                ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+                    return $action->setLabel('Ajouter un Contrat');
+                })
+                ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
+                    return $action->setLabel('Sauvegarder les changements');
+                });
     }
 
     public function export(Request $request){
@@ -283,22 +257,49 @@ class ContratCrudController extends AbstractCrudController
         return $this->csvService->export($data, 'export_contrats_'.date_create()->format('d-m-y').'.csv');
     }
 
-    public function import(Request $request)
-    {
+    public function exportContrat(Request $request){
         $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
         $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
         $filters = $this->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+        $contrats = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
+            ->getQuery()
+            ->getResult();
+        $data = [];
+        if (Action::TYPE_BATCH){
+
+            foreach ($contrats as $contrat){
+                $data[] = $contrat->getExportData();
+            }
+        }
+        return $this->csvService->export($data, 'export_cas_contrat'.date_create()->format('d-m-y').'.csv');
+
+    }
+
+    public function import(Request $request, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer){
         $contrats = $this->csvService->import($request->files->get('csv')->getPathname());
 
         foreach ($contrats as $contrat) {
             // Denormalizes data back into an Order object
-            $data = $this->denormalizer->denormalize($contrat, Contrat::class);
+            $entity = $denormalizer->denormalize($contrats, Contrat::class);
             // Then validate the entity and persist it if there's no validation error
             // ...
         }
 
-        $this->entityManager->flush();
+        $entityManager->flush();
+
     }
+
+
+//    #[Route('contrat-request/{contratRequest}', name: 'app_csv_export_contrat_request')]
+//    #[ParamConverter("contratRequest", class: Contrat::class)]
+//
+//    public function contrat_request_export(Contrat $contrat, CsvService $csvService) {
+//        $response = new Response($csvService->export($contrat, 'test'));
+//        $response->headers->set('Content-Type', 'text/csv');
+//        $response->headers->set('Content-Disposition', 'attachment');
+//
+//        return $response;
+//    }
 
 
 
