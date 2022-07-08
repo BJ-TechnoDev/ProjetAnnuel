@@ -25,24 +25,33 @@ class Matiere
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Contrat::class, mappedBy="matiere")
+     * @ORM\Column(type="string", length=255)
      */
-    private $contrats;
+    private $semestre;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Maquette::class, mappedBy="matiere")
+     * @ORM\Column(type="string", length=255)
      */
-    private $maquettes;
+    private $volume_heure;
 
-    public function __construct()
-    {
-        $this->contrats = new ArrayCollection();
-        $this->maquettes = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToMany(targetEntity=Classe::class, mappedBy="matiere")
+     */
+    private $classes;
 
     public function __toString(): string
     {
         return $this->getNom();
+    }
+
+    public function __construct()
+    {
+        $this->classes = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getNom(): ?string
@@ -57,63 +66,52 @@ class Matiere
         return $this;
     }
 
-    public function getId(): ?int
+    public function getSemestre(): ?string
     {
-        return $this->id;
+        return $this->semestre;
     }
 
-    /**
-     * @return Collection<int, Contrat>
-     */
-    public function getContrats(): Collection
+    public function setSemestre(string $semestre): self
     {
-        return $this->contrats;
-    }
-
-    public function addContrat(Contrat $contrat): self
-    {
-        if (!$this->contrats->contains($contrat)) {
-            $this->contrats[] = $contrat;
-            $contrat->setMatiere($this);
-        }
+        $this->semestre = $semestre;
 
         return $this;
     }
 
-    public function removeContrat(Contrat $contrat): self
+    public function getVolumeHeure(): ?string
     {
-        if ($this->contrats->removeElement($contrat)) {
-            // set the owning side to null (unless already changed)
-            if ($contrat->getMatiere() === $this) {
-                $contrat->setMatiere(null);
-            }
-        }
+        return $this->volume_heure;
+    }
+
+    public function setVolumeHeure(string $volume_heure): self
+    {
+        $this->volume_heure = $volume_heure;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Maquette>
+     * @return Collection<int, Classe>
      */
-    public function getMaquettes(): Collection
+    public function getClasses(): Collection
     {
-        return $this->maquettes;
+        return $this->classes;
     }
 
-    public function addMaquette(Maquette $maquette): self
+    public function addClass(Classe $class): self
     {
-        if (!$this->maquettes->contains($maquette)) {
-            $this->maquettes[] = $maquette;
-            $maquette->addMatiere($this);
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->addMatiere($this);
         }
 
         return $this;
     }
 
-    public function removeMaquette(Maquette $maquette): self
+    public function removeClass(Classe $class): self
     {
-        if ($this->maquettes->removeElement($maquette)) {
-            $maquette->removeMatiere($this);
+        if ($this->classes->removeElement($class)) {
+            $class->removeMatiere($this);
         }
 
         return $this;

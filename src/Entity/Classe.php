@@ -25,18 +25,29 @@ class Classe
     private $nom;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Maquette::class, mappedBy="classe")
+     * @ORM\ManyToMany(targetEntity=matiere::class, inversedBy="classes")
      */
-    private $maquettes;
+    private $matiere;
 
-    public function __construct()
-    {
-        $this->maquettes = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="classe")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $promo;
 
     public function __toString(): string
     {
         return $this->getNom();
+    }
+
+    public function __construct()
+    {
+        $this->matiere = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getNom(): ?string
@@ -51,34 +62,38 @@ class Classe
         return $this;
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     /**
-     * @return Collection<int, Maquette>
+     * @return Collection<int, matiere>
      */
-    public function getMaquettes(): Collection
+    public function getMatiere(): Collection
     {
-        return $this->maquettes;
+        return $this->matiere;
     }
 
-    public function addMaquette(Maquette $maquette): self
+    public function addMatiere(matiere $matiere): self
     {
-        if (!$this->maquettes->contains($maquette)) {
-            $this->maquettes[] = $maquette;
-            $maquette->addClasse($this);
+        if (!$this->matiere->contains($matiere)) {
+            $this->matiere[] = $matiere;
         }
 
         return $this;
     }
 
-    public function removeMaquette(Maquette $maquette): self
+    public function removeMatiere(matiere $matiere): self
     {
-        if ($this->maquettes->removeElement($maquette)) {
-            $maquette->removeClasse($this);
-        }
+        $this->matiere->removeElement($matiere);
+
+        return $this;
+    }
+
+    public function getPromo(): ?Promo
+    {
+        return $this->promo;
+    }
+
+    public function setPromo(?Promo $promo): self
+    {
+        $this->promo = $promo;
 
         return $this;
     }
