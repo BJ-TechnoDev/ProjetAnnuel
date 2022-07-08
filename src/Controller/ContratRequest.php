@@ -11,11 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContratRequest
 {
-    #[Route('contrat-request/{contratRequest}', name: 'app_csv_export_contrat_request')]
-    #[ParamConverter("contratRequest", class: Contrat::class)]
-
-    public function contrat_request_export(Contrat $contrat, CsvService $csvService) {
-        $response = new Response($csvService->export($contrat, 'test'));
+    #[Route('contrat/{id}', name: 'app_csv_export_contrat_request')]
+    #[ParamConverter("exportContrat", class: Contrat::class)]
+    public function exportContrat(Contrat $contrat, CsvService $csvService)
+    {
+        $response = new Response($csvService->export($contrat, 'export_cas_contrat_'));
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment');
 

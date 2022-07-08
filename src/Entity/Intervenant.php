@@ -7,11 +7,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IntervenantRepository", repositoryClass=IntervenantRepository::class)
  */
 class Intervenant
+
 {
+    public function getExportDataIntervenant()
+    {
+        return \array_merge([
+            'Nom de famille ' => $this->Nom,
+            'Prenom' => $this->Prenom,
+            'Adresse e-mail' => $this->Email,
+            'Numéro de Téléphone' => $this->Telephone,
+            'Adresse postale' => $this->Adresse,
+            'Entrez le role' => $this->Roles,
+            'Societe' => $this->societe,
+            'Numero de contact' => $this->numero_contact,
+            'Mail de contact' => $this->mail_contact,
+            'Type de societe' => $this->type_societe,
+        ]);
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

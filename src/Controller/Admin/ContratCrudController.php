@@ -4,13 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contrat;
 use App\Service\CsvService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Select;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -20,12 +18,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Form\ClickableInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class ContratCrudController extends AbstractCrudController
@@ -198,49 +192,16 @@ class ContratCrudController extends AbstractCrudController
         $exportContratCasparCas = Action::new('exportContrat');
 
             return $actions
-
                 ->add(Crud::PAGE_INDEX, $export)
                 ->add(Crud::PAGE_INDEX, $import)
                 ->add(Crud::PAGE_INDEX, Action::DETAIL)
-
-                ->addBatchAction(Action::new($exportContratCasparCas,'Exporter')
-                ->linkToCrudAction('exportContrat')
-                ->addCssClass('btn')
-                ->setIcon('fa fa-download'))
-
+                ->addBatchAction(Action::new($exportContratCasparCas, 'Exporter')
+                    ->linkToCrudAction('exportContrat')
+                    ->addCssClass('btn')
+                    ->setIcon('fa fa-download'))
                 ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
-                ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+                ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE);
 
-                ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
-                    return $action->setLabel('Detail');
-                })
-                ->update(Crud::PAGE_INDEX, Action::BATCH_DELETE, function (Action $action){
-                    return $action->setLabel('Supprimer');
-                })
-                ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
-                    return $action->setLabel('Modifier');
-                })
-                ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
-                    return $action->setLabel('Supprimer');
-                })
-                ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
-                    return $action->setLabel('Retour à la liste');
-                })
-                ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action){
-                    return $action->setLabel('Supprimer');
-                })
-                ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action){
-                    return $action->setLabel('Editer');
-                })
-                ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
-                    return $action->setLabel('Créer');
-                })
-                ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                    return $action->setLabel('Ajouter un Contrat');
-                })
-                ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
-                    return $action->setLabel('Sauvegarder les changements');
-                });
     }
 
     public function export(Request $request){
@@ -259,25 +220,16 @@ class ContratCrudController extends AbstractCrudController
         return $this->csvService->export($data, 'export_contrats_'.date_create()->format('d-m-y').'.csv');
     }
 
-    public function exportContrat(Request $request){
-        $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
-        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
-        $filters = $this->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
-        $contrats = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
-            ->getQuery()
-            ->getResult();
-        $data = [];
-        if (Action::TYPE_BATCH){
-
-            foreach ($contrats as $contrat){
-                $data[] = $contrat->getExportData();
-            }
-        }
-        return $this->csvService->export($data, 'export_cas_contrat'.date_create()->format('d-m-y').'.csv');
-
+    public function exportContrat(Contrat $contrat): array
+    {
+        return [
+            'id' => $contrat->getId(),
+        ];
     }
 
-    public function import(Request $request, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer){
+
+    public function import(Request $request, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer)
+    {
         $contrats = $this->csvService->import($request->files->get('csv')->getPathname());
 
         foreach ($contrats as $contrat) {
@@ -306,7 +258,17 @@ class ContratCrudController extends AbstractCrudController
 public function configureFilters(Filters $filters): Filters
 {
     return $filters
-        ->add('etat')
+        ->add(ChoiceFilter::new('etat')->setChoices([
+            'RH en cours de traitement' => 'RH en cours de traitement',
+            'RH dossier complet mais à traiter' => 'RH dossier complet mais à traiter',
+            'Contrat à faire - dossier complet' => 'Contrat à faire - dossier complet',
+            'Attente documents' => 'Attente documents',
+            'Ecart GP' => 'écart GP',
+            'Annulé' => 'Annulé',
+            'Fait' => 'Fait',
+            'Envoyé' => 'Envoyé',
+            'Signé' => 'Signé',
+        ]))
         ->add('intervenant')
         ;
 }

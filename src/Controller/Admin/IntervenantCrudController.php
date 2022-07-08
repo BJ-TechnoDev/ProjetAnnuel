@@ -127,59 +127,11 @@ class IntervenantCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, $export)
             ->add(Crud::PAGE_INDEX, $import)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-
-            ->addBatchAction(Action::new($exportContratCasparCas,'Exporter')
+            ->addBatchAction(Action::new($exportContratCasparCas, 'Exporter')
                 ->linkToCrudAction('exportContrat')
                 ->addCssClass('btn')
                 ->setIcon('fa fa-download'))
-
-
-            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
-
-
-            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
-                return $action->setLabel('Detail');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::BATCH_DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
-                return $action->setLabel('Modifier');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
-
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
-                return $action->setLabel('Sauvegarder et continuer');
-            })
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
-                return $action->setLabel('Créer');
-            })
-            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->setLabel('Ajouter un Intervenant');
-            })
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
-                return $action->setLabel('Sauvegarder les changements');
-            })
-
-
-            ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
-                return $action->setLabel('Retour à la liste');
-            })
-            ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
-            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action){
-                return $action->setLabel('Editer');
-            })
-            // in PHP 7.4 and newer you can use arrow functions
-            // ->update(Crud::PAGE_INDEX, Action::NEW,
-            //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
-            ;
+            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE);
     }
 
     public function export(Request $request){
@@ -191,32 +143,22 @@ class IntervenantCrudController extends AbstractCrudController
             ->getResult();
 
         $data = [];
-        foreach ($contrats as $contrat){
-            $data[] = $contrat->getExportData();
+        foreach ($contrats as $contrat) {
+            $data[] = $contrat->getExportDataIntervenant();
         }
 
-        return $this->csvService->export($data, 'export_intervenant_'.date_create()->format('d-m-y').'.csv');
+        return $this->csvService->export($data, 'export_intervenant_' . date_create()->format('d-m-y') . '.csv');
     }
 
-    public function exportContrat(Request $request){
-        $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
-        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
-        $filters = $this->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
-        $contrats = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
-            ->getQuery()
-            ->getResult();
-        $data = [];
-        if (Action::TYPE_BATCH){
-
-            foreach ($contrats as $contrat){
-                $data[] = $contrat->getExportData();
-            }
-        }
-        return $this->csvService->export($data, 'export_cas_intervenant'.date_create()->format('d-m-y').'.csv');
-
+    public function exportContrat(Contrat $contrat)
+    {
+        return [
+            'id' => $contrat->getId(),
+        ];
     }
 
-    public function import(Request $request, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer){
+    public function import(Request $request, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer)
+    {
         $contrats = $this->csvService->import($request->files->get('csv')->getPathname());
 
         foreach ($contrats as $contrat) {
