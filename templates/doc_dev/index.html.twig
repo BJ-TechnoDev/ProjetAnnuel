@@ -12,20 +12,31 @@
         {{ encore_entry_link_tags('docdev') }}
 </head>
 <body>
+<div class="container text-center">
+    <h1 class="text-center">Documentation pour les nouveaux developpeurs</h1>
 
-<h1 class="text-center">Documentation pour les nouveaux developpeurs</h1>
+    <p>
+        Pour cette aplication nous avons développer avec symfony (<a href="https://symfony.com/">Voir la doc
+            symfony)</a>
+        <br><br>
+        <strong>Je vais vous expliquer notre façons de penser</strong>
+        <br><br>
+        Tout d'abord symfony est fait a base de controller pour la logique et pour la vue tout est dans le dossier
+        template nous sommes passer par des components la logique de chaque composant se trouve dans le dossier
+        src/Component
+        et la vue dans le dossier template/component
+        <br>
+        Pour les styles tout se passe dans le dossier asset/style ici encore on organise tout avec des composants
+    </p>
 
-<p>
-{# TODO faire la doc dev #}
-</p>
+    <a class="linktohome" href="{{ path('homepage') }}">Revenir à la page d'accueil</a>
+</div>
 
-<a href="{{ path('homepage') }}">Revenir à la page d'accueil</a>
-
-    {{ encore_entry_script_tags('docdev') }}
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous">
-    </script>
+{{ encore_entry_script_tags('docdev') }}
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
 </body>
 </html>

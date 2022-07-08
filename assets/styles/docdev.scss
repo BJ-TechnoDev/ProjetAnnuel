@@ -10,12 +10,21 @@
 body {
   font-family: 'Arimo', sans-serif;
 
-  ::selection{
-    //todo or not
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  p {
+    a {
+      text-decoration: none;
+    }
   }
 
   //animation sur le link
-  a {
+  .linktohome {
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 30px;
     color: #023165;
     text-decoration: none;
     position: relative;
