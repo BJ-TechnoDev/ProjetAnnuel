@@ -181,12 +181,6 @@ class Contrat
      */
     private $intervenant;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Matiere::class, inversedBy="contrats")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $matiere;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -515,18 +509,6 @@ class Contrat
     public function setIntervenant(?Intervenant $intervenant): self
     {
         $this->intervenant = $intervenant;
-
-        return $this;
-    }
-
-    public function getMatiere(): ?Matiere
-    {
-        return $this->matiere;
-    }
-
-    public function setMatiere(?Matiere $matiere): self
-    {
-        $this->matiere = $matiere;
 
         return $this;
     }
