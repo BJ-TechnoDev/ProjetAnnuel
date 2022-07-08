@@ -26,25 +26,27 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Onyle')
-            ->setFaviconPath('build/favicon 2.ico');
+            ->setTitle('<span style="color: #023165">ONY</span><span style="color: #29C7E5">LE</span>')
+            ->setFaviconPath('build/favicon 2.ico')
+            ;
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Accueil', 'fa fa-home');
-        yield MenuItem::section('Accès au site');
+        yield MenuItem::section('Accès au site')->setCssClass('text-black');
         yield MenuItem::linkToRoute("Accéder à votre site", 'fa fa-arrow-right-to-bracket', 'homepage');
-        yield MenuItem::section('Users');
-        yield MenuItem::LinktoCrud('Utilisateur', 'fa fa-user', User::class);
-        yield MenuItem::section('Intervenants');
-        yield MenuItem::linkToCrud("Intervenant", "fa fa-users", Intervenant::class);
-        yield MenuItem::section('Demande de Contrat');
-        yield MenuItem::linkToCrud("Accéder à vos contrat", "fa fa-file-contract", Contrat::class);
-        yield MenuItem::section('Import / Export');
-        yield MenuItem::LinkToCrud("Import Maquette", 'fa fa-laptop-file', Intervenant::class);
+        yield MenuItem::section('Users')->setCssClass('text-black');
+        yield MenuItem::LinktoCrud('Utilisateur', 'fa fa-folder', User::class);
+        yield MenuItem::section('Intervenants')->setCssClass('text-black');
+        yield MenuItem::linkToCrud("Intervenant", "fa fa-folder", Intervenant::class);
+        yield MenuItem::section('Demande de Contrat')->setCssClass('text-black');
+        yield MenuItem::linkToCrud("Accéder à vos contrat", "fa fa-folder", Contrat::class);
+        yield MenuItem::section('Export GoogleSheet')->setCssClass('text-black');
         yield MenuItem::linkToRoute("Export en GoogleSheet", 'fa fa-file-arrow-up', '#');
-        yield MenuItem::section('Se Déconnecter');
+        yield MenuItem::section('Maquette Pédagogique')->setCssClass('text-black');
+        yield MenuItem::LinkToCrud("Maquette", 'fa fa-folder', Intervenant::class);
+        yield MenuItem::section('Se Déconnecter')->setCssClass('text-black');
         yield MenuItem::linkToLogout('Déconnexion', 'fa fa-right-to-bracket');
 
     }

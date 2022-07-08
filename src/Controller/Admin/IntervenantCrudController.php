@@ -2,22 +2,35 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Contrat;
 use App\Entity\Intervenant;
+use App\Service\CsvService;
+use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class IntervenantCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
         return Intervenant::class;
+    }
+
+    private CsvService $csvService;
+
+    public function __construct(CsvService $csvService, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer){
+        $this->csvService = $csvService;
     }
 
 
@@ -92,10 +105,37 @@ class IntervenantCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $export = Action::new('export', 'Export')
+            ->setIcon('fa fa-download')
+            ->linkToCrudAction('export')
+            ->setCssClass('btn')
+            ->createAsGlobalAction();
+
+        $import = Action::new('import', 'Import')
+            ->setIcon('fa fa-file-import')
+            ->linkToCrudAction('import')
+            ->setCssClass('btn')
+            ->createAsGlobalAction();
+
+        $exportContratCasparCas = Action::new('exportContrat');
+
         return $actions
+
+
             // ...
 //            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
+            ->add(Crud::PAGE_INDEX, $export)
+            ->add(Crud::PAGE_INDEX, $import)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+
+            ->addBatchAction(Action::new($exportContratCasparCas,'Exporter')
+                ->linkToCrudAction('exportContrat')
+                ->addCssClass('btn')
+                ->setIcon('fa fa-download'))
+
+
+            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+
 
             ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
                 return $action->setLabel('Detail');
@@ -125,7 +165,7 @@ class IntervenantCrudController extends AbstractCrudController
             ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
                 return $action->setLabel('Sauvegarder les changements');
             })
-           ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+
 
             ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
                 return $action->setLabel('Retour à la liste');
@@ -140,6 +180,54 @@ class IntervenantCrudController extends AbstractCrudController
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
             ;
+    }
+
+    public function export(Request $request){
+        $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
+        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+        $filters = $this->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+        $contrats = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
+            ->getQuery()
+            ->getResult();
+
+        $data = [];
+        foreach ($contrats as $contrat){
+            $data[] = $contrat->getExportData();
+        }
+
+        return $this->csvService->export($data, 'export_intervenant_'.date_create()->format('d-m-y').'.csv');
+    }
+
+    public function exportContrat(Request $request){
+        $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
+        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+        $filters = $this->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+        $contrats = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
+            ->getQuery()
+            ->getResult();
+        $data = [];
+        if (Action::TYPE_BATCH){
+
+            foreach ($contrats as $contrat){
+                $data[] = $contrat->getExportData();
+            }
+        }
+        return $this->csvService->export($data, 'export_cas_intervenant'.date_create()->format('d-m-y').'.csv');
+
+    }
+
+    public function import(Request $request, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer){
+        $contrats = $this->csvService->import($request->files->get('csv')->getPathname());
+
+        foreach ($contrats as $contrat) {
+            // Denormalizes data back into an Order object
+            $entity = $denormalizer->denormalize($contrats, Contrat::class);
+            // Then validate the entity and persist it if there's no validation error
+            // ...
+        }
+
+        $entityManager->flush();
+
     }
 
 }
