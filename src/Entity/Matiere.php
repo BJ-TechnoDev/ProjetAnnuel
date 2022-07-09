@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MatiereRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,12 +34,15 @@ class Matiere
      */
     private $volume_heure;
 
-
     /**
-     * @ORM\ManyToOne(targetEntity=Contrat::class, inversedBy="matiere")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=Contrat::class, mappedBy="matiere")
      */
-    private $contrat;
+    private $contrats;
+
+    public function __construct()
+    {
+        $this->contrats = new ArrayCollection();
+    }
 
 
     public function __toString(): string
@@ -87,16 +92,35 @@ class Matiere
         return $this;
     }
 
-
-    public function getContrat(): ?Contrat
+    /**
+     * @return Collection<int, Contrat>
+     */
+    public function getContrats(): Collection
     {
-        return $this->contrat;
+        return $this->contrats;
     }
 
-    public function setContrat(?Contrat $contrat): self
+    public function addContrat(Contrat $contrat): self
     {
-        $this->contrat = $contrat;
+        if (!$this->contrats->contains($contrat)) {
+            $this->contrats[] = $contrat;
+            $contrat->setMatiere($this);
+        }
 
         return $this;
     }
+
+    public function removeContrat(Contrat $contrat): self
+    {
+        if ($this->contrats->removeElement($contrat)) {
+            // set the owning side to null (unless already changed)
+            if ($contrat->getMatiere() === $this) {
+                $contrat->setMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

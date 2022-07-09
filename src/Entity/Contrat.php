@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ContratRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,27 +17,27 @@ class Contrat
             'Marque / Ecole' => $this->marqueOuEcole,
             'Intervenant' => $this->intervenant,
             'Societe' => $this->typeSociete,
-            'Commentaires' =>$this->commentaire,
-            'Statut Contrat' =>$this->statusContrat,
-            'Type de Mission' =>$this->typeMission,
-            'Tarif a appliquer' =>$this->tarif,
-            'Horaire ou Forfaite' =>$this->horaire,
-            'TTC/SST' =>$this->ttcSst,
-            'Volume Horaire' =>$this->volumeHoraire,
-            'Unite' =>$this->unite,
-            'Date Debut' =>$this->dateDebut->format('d.m.Y H:m'),
-            'Date Fin' =>$this->dateFin->format('d.m.Y H:m'),
-//            'Matiere' =>$this->matiere,
-            'Promotion' =>$this->promotion,
-            'Alternant/Initial' =>$this->alternant,
-            'Periode' =>$this->periode,
-            'RP' =>$this->rp,
-            'Type Recrutement' =>$this->typeRecrutement,
-            'Diplome le plus eleve' =>$this->DiplomeLePlusEleve,
-            'Domaine de Compétence Principal' =>$this->domaineCompetence1,
-            'Domaine de Compétence 2' =>$this->domaineCompetence2,
-            'Domaine de Compétence 3' =>$this->domaineCompetence3,
-            'Niveau d\'Expertise en Pédagogique' =>$this->niveauExpertisePedagogique,
+            'Commentaires' => $this->commentaire,
+            'Statut Contrat' => $this->statusContrat,
+            'Type de Mission' => $this->typeMission,
+            'Tarif a appliquer' => $this->tarif,
+            'Horaire ou Forfaite' => $this->horaire,
+            'TTC/SST' => $this->ttcSst,
+            'Volume Horaire' => $this->volumeHoraire,
+            'Unite' => $this->unite,
+            'Date Debut' => $this->dateDebut->format('d.m.Y H:m'),
+            'Date Fin' => $this->dateFin->format('d.m.Y H:m'),
+            'Matiere' => $this->matiere,
+            'Promotion' => $this->promotion,
+            'Alternant/Initial' => $this->alternant,
+            'Periode' => $this->periode,
+            'RP' => $this->rp,
+            'Type Recrutement' => $this->typeRecrutement,
+            'Diplome le plus eleve' => $this->DiplomeLePlusEleve,
+            'Domaine de Compétence Principal' => $this->domaineCompetence1,
+            'Domaine de Compétence 2' => $this->domaineCompetence2,
+            'Domaine de Compétence 3' => $this->domaineCompetence3,
+            'Niveau d\'Expertise en Pédagogique' => $this->niveauExpertisePedagogique,
             'Niveau d\'Expertise Matière Professionnelle' =>$this->niveauExpertisePro,
             'Etat (Valeur actuelle)' =>$this->etat,
         ]);
@@ -184,14 +182,10 @@ class Contrat
     private $intervenant;
 
     /**
-     * @ORM\OneToMany(targetEntity=Matiere::class, mappedBy="contrat")
+     * @ORM\ManyToOne(targetEntity=Matiere::class, inversedBy="contrats")
      */
     private $matiere;
 
-    public function __construct()
-    {
-        $this->matiere = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -525,33 +519,16 @@ class Contrat
         return $this;
     }
 
-    /**
-     * @return Collection<int, Matiere>
-     */
-    public function getMatiere(): Collection
+    public function getMatiere(): ?Matiere
     {
         return $this->matiere;
     }
 
-    public function addMatiere(Matiere $matiere): self
+    public function setMatiere(?Matiere $matiere): self
     {
-        if (!$this->matiere->contains($matiere)) {
-            $this->matiere[] = $matiere;
-            $matiere->setContrat($this);
-        }
+        $this->matiere = $matiere;
 
         return $this;
     }
 
-    public function removeMatiere(Matiere $matiere): self
-    {
-        if ($this->matiere->removeElement($matiere)) {
-            // set the owning side to null (unless already changed)
-            if ($matiere->getContrat() === $this) {
-                $matiere->setContrat(null);
-            }
-        }
-
-        return $this;
-    }
 }
