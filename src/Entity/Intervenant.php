@@ -27,6 +27,7 @@ class Intervenant
             'Numero de contact' => $this->numero_contact,
             'Mail de contact' => $this->mail_contact,
             'Type de societe' => $this->type_societe,
+            'Volume horaire total' => $this->volume_horaire,
         ]);
     }
 
