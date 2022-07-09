@@ -25,7 +25,7 @@ class Ecole
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=promo::class, mappedBy="ecole")
+     * @ORM\OneToMany(targetEntity=Promo::class, mappedBy="ecole")
      */
     private $promo;
 
