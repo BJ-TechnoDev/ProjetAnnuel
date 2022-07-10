@@ -1,16 +1,14 @@
 <div class="container doc-container" xmlns="http://www.w3.org/1999/html">
     <h2 class="text-center">Documentation :</h2>
 
-    {#    TODO changer la doc avec des images et des fleches pour bien montrer comment se servir de l'application #}
-
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
+            <h3 class="accordion-header" id="headingOne">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                         aria-expanded="true" aria-controls="collapseOne">
                     <strong>Utilisateurs</strong>
                 </button>
-            </h2>
+            </h3>
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                  data-bs-parent="#accordionExample">
                 <img class="accordion-body" style="width: 80%" src="{{ asset('build/PageUser.png') }}" alt="">
@@ -19,13 +17,13 @@
                     Tous les <strong>utilisateurs</strong> ayant accès à l'application sont ici. <br>
                     <strong>Seul <span style="color: red">les admins</span> peuvent créer, modifier ou supprimer un
                         utilisateur, soit en cliquant sur<span style="color: dodgerblue"> ajouter un utilisateur </span>pour
-                        en ajouter un. Mais aussi en cliquant sur les <span style="color: dodgerblue"> '...'</span> pour
+                        en ajouter un. <br> Mais aussi en cliquant sur les <span style="color: dodgerblue"> '...'</span> pour
                         modifier ou supprimer.</strong>.
                 </div>
                 <br>
                 <img src="{{ asset('build/Créeruser.png') }} " style="width: 80%" class="accordion-body" alt="">
                 <div class="accordion-body">
-                    <strong>Dans l'onglet Créer un Utilisateur :</strong><br>
+                    <strong>Après avoir cliquer sur le bouton ajoutez un utilisateur :</strong><br>
                     Seul les <strong><span style="color: red">admins</span></strong> peuvent avoir accès à cette onglet,
                     ils doivent remplir tous les champs pour valider la création d'un utilisateur.
                 </div>
@@ -40,12 +38,12 @@
             </div>
         </div>
         <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
+            <h3 class="accordion-header" id="headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     <strong>Intervenant</strong>
                 </button>
-            </h2>
+            </h3>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                  data-bs-parent="#accordionExample">
                 <img class="accordion-body" style="width: 80%" src="{{ asset('build/CaptureIntervenanty.png') }}"
@@ -56,8 +54,8 @@
                     Tous ceux qui ont accès à l'application peuvent <strong style="color: dodgerblue">Importer ou
                         Exporter</strong> les données.<br>
                     Ils peuvent aussi <strong><span style="color: dodgerblue">créer un Intervenant,</span> <span
-                                style="color: orange"> Éditer</span> ou <span
-                                style="color: red"> Supprimer.</span></strong>
+                                style="color: orange"> l'éditer</span> ou <span
+                                style="color: red"> le supprimer.</span></strong>
                 </div>
                 <br>
                 <img src="{{ asset('build/CréerIntervenant.png') }} " style="width: 80%" class="accordion-body" alt="">
@@ -80,12 +78,12 @@
         </div>
 
         <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
+            <h3 class="accordion-header" id="headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     <strong>Demande de contrat</strong>
                 </button>
-            </h2>
+            </h3>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                  data-bs-parent="#accordionExample">
                 <img class="accordion-body" style="width: 80%" src="{{ asset('build/Contratcréer.png') }}" alt="">
@@ -133,17 +131,18 @@
         </div>
 
         <div class="accordion-item">
-            <h2 class="accordion-header" id="headingFour">
+            <h3 class="accordion-header" id="headingFour">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                     <strong>Maquette pédagogique</strong>
                 </button>
-            </h2>
+            </h3>
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     Dans ces onglets : <br>
-                    <strong>Coming Soon</strong>
+{#                    TODO finir la doc avec la partie maquette pédagogique une fois les bugs terminer #}
+                    <strong>A Venir</strong>
                 </div>
             </div>
         </div>
