@@ -1,4 +1,4 @@
-<div class="container doc-container">
+<div class="container doc-container" xmlns="http://www.w3.org/1999/html">
     <h2 class="text-center">Documentation :</h2>
 
     {#    TODO changer la doc avec des images et des fleches pour bien montrer comment se servir de l'application #}
@@ -11,12 +11,31 @@
                     <strong>Utilisateurs</strong>
                 </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                  data-bs-parent="#accordionExample">
+                <img class="accordion-body" style="width: 80%" src="{{ asset('build/PageUser.png') }}" alt="">
                 <div class="accordion-body">
-                    Dans l'onglet utilisateurs : <br>
-                    Possibilités de voir les différents utilisateurs <br>
-                    <strong>Seul les admins peuvent créer, modifier ou supprimer un utilisateur</strong>.
+                    <strong>Dans l'onglet utilisateurs : </strong><br>
+                    Tous les <strong>utilisateurs</strong> ayant accès à l'application sont ici. <br>
+                    <strong>Seul <span style="color: red">les admins</span> peuvent créer, modifier ou supprimer un
+                        utilisateur, soit en cliquant sur<span style="color: dodgerblue"> ajouter un utilisateur </span>pour
+                        en ajouter un. Mais aussi en cliquant sur les <span style="color: dodgerblue"> '...'</span> pour
+                        modifier ou supprimer.</strong>.
+                </div>
+                <br>
+                <img src="{{ asset('build/Créeruser.png') }} " style="width: 80%" class="accordion-body" alt="">
+                <div class="accordion-body">
+                    <strong>Dans l'onglet Créer un Utilisateur :</strong><br>
+                    Seul les <strong><span style="color: red">admins</span></strong> peuvent avoir accès à cette onglet,
+                    ils doivent remplir tous les champs pour valider la création d'un utilisateur.
+                </div>
+                <br>
+                <img src="{{ asset('build/ConsulterUser.png') }} " style="width: 80%" class="accordion-body" alt="">
+                <div class="accordion-body">
+                    <strong>Dans l'onglet Consulter un Utilisateur :</strong><br>
+                    Tous les <strong style="color: dodgerblue">utilisateur</strong> ont accès à cette onglet, ils
+                    peuvent voir email - rôle mais le <strong>mot de passe</strong> est caché.<br>
+                    Seul les <strong style="color: red">admins</strong> peuvent <strong>Supprimer</strong> ou <strong>Éditer </strong>l'utilisateur.
                 </div>
             </div>
         </div>
@@ -29,10 +48,33 @@
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                  data-bs-parent="#accordionExample">
+                <img class="accordion-body" style="width: 80%" src="{{ asset('build/CaptureIntervenanty.png') }}"
+                     alt="">
                 <div class="accordion-body">
-                    Dans l'onglet Intervenant : <br>
-                    Possibilités de voir les différents intervenant <br>
-                    également possible de créer, supprimer et modifier les intervenants.
+                    <strong>Dans l'onglet Intervenant : </strong><br>
+                    Tous les <strong>intervenants</strong> sont stockées ici. <br>
+                    Tous ceux qui ont accès à l'application peuvent <strong style="color: dodgerblue">Importer ou
+                        Exporter</strong> les données.<br>
+                    Ils peuvent aussi <strong><span style="color: dodgerblue">créer un Intervenant,</span> <span
+                                style="color: orange"> Éditer</span> ou <span
+                                style="color: red"> Supprimer.</span></strong>
+                </div>
+                <br>
+                <img src="{{ asset('build/CréerIntervenant.png') }} " style="width: 80%" class="accordion-body" alt="">
+                <div class="accordion-body">
+                    <strong>Dans l'onglet Créer un Intervenant :</strong><br>
+                    Tous les <strong><span style="color: dodgerblue">utilisateurs</span></strong> ont accès à cette
+                    onglet, ils doivent remplir tous les champs pour valider la création d'un Intervenant.
+                </div>
+                <br>
+                <img src="{{ asset('build/ConsulterIntervenant.png') }} " style="width: 80%" class="accordion-body"
+                     alt="">
+                <div class="accordion-body">
+                    <strong>Dans l'onglet Consulter un Intervenant :</strong><br>
+                    Tous les <strong style="color: dodgerblue">utilisateurs</strong> ont accès à cette onglet, ils
+                    peuvent voir toutes les informations concernant l'Intervenant.<br>
+                    Ils peuvent aussi <strong>Supprimer</strong> ou <strong>Éditer </strong>l'utilisateur dans cette
+                    onglet.
                 </div>
             </div>
         </div>
@@ -46,10 +88,46 @@
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                  data-bs-parent="#accordionExample">
+                <img class="accordion-body" style="width: 80%" src="{{ asset('build/Contratcréer.png') }}" alt="">
                 <div class="accordion-body">
-                    Dans cet onglet : <br>
-                    Possibilités de voir les différentes demandes de contrats <br>
-                    également possible de filtrer les contrats en fonction de leur état ou des intervenants.
+                    <strong>Dans l'onglet demande de Contrat : </strong><br>
+                    Tous les <strong>contrats</strong> sont stockées ici.<br>
+                    Tous les utilisateurs peuvent <strong style="color: dodgerblue">Importer ou Exporter</strong> les
+                    données.<br>
+                    Ils peuvent aussi <strong><span style="color: dodgerblue">créer un Contrat,</span> <span
+                                style="color: orange"> Éditer</span> ou <span
+                                style="color: red"> Supprimer.</span></strong>
+
+                </div>
+                <br>
+                <img src="{{ asset('build/Contrat Creee.png') }} " style="width: 80%" class="accordion-body" alt="">
+                <div class="accordion-body">
+                    <strong>Dans l'onglet Créer un Contrat :</strong><br>
+                    Tous les <strong><span style="color: dodgerblue">utilisateurs</span></strong> ont accès à cette
+                    onglet, ils doivent remplir tous les champs pour valider la création d'un Contrat.
+                </div>
+                <br>
+                <div style="display: flex">
+                    <img src="{{ asset('build/FiltreContrat.png') }} " style="width: 50%; height: 50%"
+                         class="accordion-body" alt="">
+                    <img src="{{ asset('build/FiltreContratt.png') }} " style="width: 50%" class="accordion-body"
+                         alt="">
+                </div>
+                <div class="accordion-body">
+                    <strong>Dans l'onglet Filtre :</strong><br>
+                    L'application permet de <strong>filtrer </strong>nos recherches, c'est à dire qu'on peut filtrer
+                    selon <strong>l'état </strong>du contrat ou alors selon <strong>l'intervenant.</strong><br>
+                    <strong>Ce qui nous permet de rechercher tous les contrats d'un intervenant ou alors tous les
+                        contrats selon un état bien précis.</strong>
+                </div>
+                <br>
+                <img src="{{ asset('build/DetailContrat.png') }}" style="width: 80%" class="accordion-body" alt="">
+                <div class="accordion-body">
+                    <strong>Dans l'onglet Consulter un Contrat :</strong><br>
+                    Tous les <strong style="color: dodgerblue">utilisateurs</strong> ont accès à cette onglet, ils
+                    peuvent voir toutes les informations concernant le contrat choisit.<br>
+                    Ils peuvent aussi <strong>Supprimer</strong> ou <strong>Éditer </strong>le contrat dans cette
+                    onglet.
                 </div>
             </div>
         </div>
@@ -65,8 +143,7 @@
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     Dans ces onglets : <br>
-                    Possibilités de voir les différentes parties de la maquette pédagogique <br>
-                    comme par exemple les classes, les écoles, les promos et les matières
+                    <strong>Coming Soon</strong>
                 </div>
             </div>
         </div>

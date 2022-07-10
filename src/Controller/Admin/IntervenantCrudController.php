@@ -97,9 +97,14 @@ class IntervenantCrudController extends AbstractCrudController
             //   %entity_id%, %entity_short_id%
             //   %entity_label_singular%, %entity_label_plural%
             ->setPageTitle('index', '%entity_label_plural% liste')
+            ->setHelp('index', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('new', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('edit', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('detail', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            //   %entity_label_singular%, %entity_label_plural%
 
             // you can pass a PHP closure as the value of the title
-            ->setPageTitle('new', 'Créez un Intervenant')
+            ->setPageTitle('new', 'Créer un Intervenant')
 
             // in DETAIL and EDIT pages, the closure receives the current entity
             // as the first argument
@@ -136,7 +141,9 @@ class IntervenantCrudController extends AbstractCrudController
                 ->linkToCrudAction('exportContrat')
                 ->addCssClass('btn')
                 ->setIcon('fa fa-download'))
-            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE);
+            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER);
+
     }
 
     public function export(Request $request){

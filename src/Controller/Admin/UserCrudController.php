@@ -10,12 +10,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\HiddenField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -60,11 +57,16 @@ class UserCrudController extends AbstractCrudController
             // it can include these placeholders:
             //   %entity_name%, %entity_as_string%,
             //   %entity_id%, %entity_short_id%
+            ->setHelp('index', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('new', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('edit', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('detail', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
             //   %entity_label_singular%, %entity_label_plural%
             ->setPageTitle('index', 'Utilisateur liste')
 
             // you can pass a PHP closure as the value of the title
-            ->setPageTitle('new', 'Créez un Utilisateur')
+            ->setPageTitle('new', 'Créer un Utilisateur')
+            ->setPageTitle('detail', 'Utilisateur')
 
             // in DETAIL and EDIT pages, the closure receives the current entity
             // as the first argument
@@ -79,45 +81,9 @@ class UserCrudController extends AbstractCrudController
             // ...
 //            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER, function (Action $action) {
-                return $action->setLabel('Sauvegarder et continuer');
-            })
-            ->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
-                return $action->setLabel('Créer');
-            })
-            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->setLabel('Ajouter un Utilisateur');
-            })
-            ->update(Crud::PAGE_EDIT, Action::SAVE_AND_RETURN, function (Action $action) {
-                return $action->setLabel('Sauvegarder les changements');
-            })
+            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
             ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
 
-            ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action){
-                return $action->setLabel('Retour à la liste');
-            })
-            ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
-            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action){
-                return $action->setLabel('Editer');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action){
-                return $action->setLabel('Detail');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::BATCH_DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action){
-                return $action->setLabel('Modifier');
-            })
-
-            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
-                return $action->setLabel('Supprimer');
-            })
             // in PHP 7.4 and newer you can use arrow functions
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))

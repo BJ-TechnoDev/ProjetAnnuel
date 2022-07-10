@@ -170,8 +170,12 @@ class ContratCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setHelp('index', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('new', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('edit', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
+            ->setHelp('detail', 'N\'hésitez pas à consulter la documentation présente dans l\'onglet <strong>Accueil</strong>')
             ->setPageTitle('index', '%entity_label_plural% liste')
-            ->setPageTitle('new', 'Créez un Contrat')
+            ->setPageTitle('new', 'Créer un Contrat')
             ->setPageTitle('edit', 'Modifier un Contrat');
     }
 
