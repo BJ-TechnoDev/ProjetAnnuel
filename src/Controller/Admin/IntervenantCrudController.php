@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Contrat;
 use App\Entity\Intervenant;
 use App\Service\CsvService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,8 +17,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Validator\Constraints\File;
 
 class IntervenantCrudController extends AbstractCrudController
 {
@@ -30,8 +32,10 @@ class IntervenantCrudController extends AbstractCrudController
 
     private CsvService $csvService;
 
-    public function __construct(CsvService $csvService, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer){
+    public function __construct(CsvService $csvService, EntityManagerInterface $em)
+    {
         $this->csvService = $csvService;
+        $this->entityManager = $em;
     }
 
 
@@ -162,26 +166,84 @@ class IntervenantCrudController extends AbstractCrudController
         return $this->csvService->export($data, 'export_intervenant_' . date_create()->format('d-m-y') . '.csv');
     }
 
-    public function exportContrat(Contrat $contrat)
+    public function import(Request $request, EntityManagerInterface $em)
     {
-        return [
-            'id' => $contrat->getId(),
-        ];
-    }
+        $form = $this->createFormBuilder()
+            ->add('ImportIntervenant', FileType::class, [
+                'required' => true,
+                'label' => 'Import Ficher CSV',
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [ // We want to let upload only txt, csv or Excel files
+                            'text/x-comma-separated-values',
+                            'text/comma-separated-values',
+                            'text/x-csv',
+                            'text/csv',
+                            'text/plain',
+                            'application/octet-stream',
+                            'application/vnd.ms-excel',
+                            'application/x-csv',
+                            'application/csv',
+                            'application/excel',
+                            'application/vnd.msexcel',
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        ],
+                        'mimeTypesMessage' => "This document isn't valid.",
+                    ])
+                ],
+            ])
+            ->add('send', SubmitType::class, [
+                'label' => 'Importer',
+                'attr' => ['class' => 'btn btn-primary']
+            ])// We could have added it in the view, as stated in the framework recommendations
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile */
+            $file = $form->get('ImportIntervenant')->getData();
 
-    public function import(Request $request, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer)
-    {
-        $contrats = $this->csvService->import($request->files->get('csv')->getPathname());
+            //open file
+            $em = $this->entityManager;
 
-        foreach ($contrats as $contrat) {
-            // Denormalizes data back into an Order object
-            $entity = $denormalizer->denormalize($contrats, Contrat::class);
-            // Then validate the entity and persist it if there's no validation error
-            // ...
+            if (($handle = fopen($file->getPathname(), "r")) !== false) {
+                $count = 0;
+                $batchSize = 1000;
+                $data = fgetcsv($handle, 0, ",");
+
+                while (($data = fgetcsv($handle, 0, ',')) !== false) {
+                    $count++;
+                    $entity = new Intervenant();
+
+
+                    $entity->setNom($data[0]);
+                    $entity->setPrenom($data[1]);
+                    $entity->setEmail($data[2]);
+                    $entity->setTelephone($data[3]);
+                    $entity->setAdresse($data[4]);
+                    $entity->setRoles($data[5]);
+                    $entity->setSociete($data[6]);
+                    $entity->setNumeroContact($data[7]);
+                    $entity->setMailContact($data[8]);
+                    $entity->setTypeSociete($data[9]);
+                    $entity->setVolumeHoraire($data[10]);
+
+
+                    $em->persist($entity);
+
+                    if (($count % $batchSize) === 0) {
+                        $em->flush();
+                        $em->clear();
+                    }
+                }
+                fclose($handle);
+                $em->flush();
+                $em->clear();
+            }
         }
 
-        $entityManager->flush();
-
+        return $this->render("admin/import.html.twig", [
+            'form' => $form->createView()
+        ]);
     }
 
 }

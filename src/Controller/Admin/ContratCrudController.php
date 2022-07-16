@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contrat;
+use App\Entity\Intervenant;
 use App\Service\CsvService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -19,8 +20,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Validator\Constraints\File;
+use function Symfony\Component\String\u;
 
 class ContratCrudController extends AbstractCrudController
 {
@@ -32,8 +37,11 @@ class ContratCrudController extends AbstractCrudController
 
     private CsvService $csvService;
 
-    public function __construct(CsvService $csvService, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer){
+    public function __construct(CsvService $csvService, EntityManagerInterface $em)
+    {
         $this->csvService = $csvService;
+        $this->entityManager = $em;
+
     }
 
     public function configureFields(string $pageName): iterable
@@ -189,20 +197,15 @@ class ContratCrudController extends AbstractCrudController
 
             $import = Action::new('import', 'Import')
                 ->setIcon('fa fa-file-import')
-                ->linkToCrudAction('import')
+                ->linkToCrudAction('process')
                 ->setCssClass('btn')
                 ->createAsGlobalAction();
-
-        $exportContratCasparCas = Action::new('exportContrat');
 
             return $actions
                 ->add(Crud::PAGE_INDEX, $export)
                 ->add(Crud::PAGE_INDEX, $import)
                 ->add(Crud::PAGE_INDEX, Action::DETAIL)
-                ->addBatchAction(Action::new($exportContratCasparCas, 'Exporter')
-                    ->linkToCrudAction('exportContrat')
-                    ->addCssClass('btn')
-                    ->setIcon('fa fa-download'))
+
                 ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
                 ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE);
 
@@ -217,48 +220,117 @@ class ContratCrudController extends AbstractCrudController
             ->getResult();
 
         $data = [];
-        foreach ($contrats as $contrat){
+        foreach ($contrats as $contrat) {
             $data[] = $contrat->getExportData();
         }
 
-        return $this->csvService->export($data, 'export_contrats_'.date_create()->format('d-m-y').'.csv');
-    }
-
-    public function exportContrat(Contrat $contrat): array
-    {
-        return [
-            'id' => $contrat->getId(),
-        ];
+        return $this->csvService->export($data, 'export_contrats_' . date_create()->format('d-m-y') . '.csv');
     }
 
 
-    public function import(Request $request, EntityManagerInterface $entityManager, DenormalizerInterface $denormalizer)
+    public function process(Request $request, EntityManagerInterface $em)
     {
-        $contrats = $this->csvService->import($request->files->get('csv')->getPathname());
+        $form = $this->createFormBuilder()
+            ->add('Import', FileType::class, [
+                'required' => true,
+                'label' => 'Import Ficher CSV',
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [ // We want to let upload only txt, csv or Excel files
+                            'text/x-comma-separated-values',
+                            'text/comma-separated-values',
+                            'text/x-csv',
+                            'text/csv',
+                            'text/plain',
+                            'application/octet-stream',
+                            'application/vnd.ms-excel',
+                            'application/x-csv',
+                            'application/csv',
+                            'application/excel',
+                            'application/vnd.msexcel',
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        ],
+                        'mimeTypesMessage' => "This document isn't valid.",
+                    ])
+                ],
+            ])
+            ->add('send', SubmitType::class, [
+                'label' => 'Importer',
+                'attr' => ['class' => 'btn btn-primary']
+            ])// We could have added it in the view, as stated in the framework recommendations
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile */
+            $file = $form->get('Import')->getData();
 
-        foreach ($contrats as $contrat) {
-            // Denormalizes data back into an Order object
-            $entity = $denormalizer->denormalize($contrats, Contrat::class);
-            // Then validate the entity and persist it if there's no validation error
-            // ...
+            //open file
+            $em = $this->entityManager;
+
+            if (($handle = fopen($file->getPathname(), "r")) !== false) {
+                $count = 0;
+                $batchSize = 1000;
+                $data = fgetcsv($handle, 0, ",");
+
+                while (($data = fgetcsv($handle, 0, ",")) !== false) {
+                    $count++;
+                    $entity = new Contrat();
+                    $test1 = $data[2];
+                    $intervenant = u($test1)->split(' ');
+                    $findintervenant = $em->getRepository(Intervenant::class)->findBy([
+                        'Nom' => $intervenant[0],
+                        'Prenom' => $intervenant[1]
+                    ]);
+                    $matiere = $em->getRepository(Contrat::class)->find($data[14]);
+//                    $intervenant = $em->getRepository(Contrat::class)->find($data[2]);
+
+
+                    $entity->setDateDemande(new \DateTime($data[0]));
+                    $entity->setMarqueOuEcole($data[1]);
+                    $entity->setIntervenant($findintervenant);
+                    $entity->setTypeSociete($data[3]);
+                    $entity->setCommentaire($data[4]);
+                    $entity->setStatusContrat($data[5]);
+                    $entity->setTypeMission($data[6]);
+                    $entity->setTarif($data[7]);
+                    $entity->setHoraire($data[8]);
+                    $entity->setTtcSst($data[9]);
+                    $entity->setVolumeHoraire($data[10]);
+                    $entity->setUnite($data[11]);
+                    $entity->setDateDebut(new \DateTime($data[12]));
+                    $entity->setDateFin(new \DateTime($data[13]));
+                    $entity->setMatiere($matiere);
+                    $entity->setPromotion($data[15]);
+                    $entity->setAlternant($data[16]);
+                    $entity->setPeriode($data[17]);
+                    $entity->setRp($data[18]);
+                    $entity->setTypeRecrutement($data[19]);
+                    $entity->setDiplomeLePlusEleve($data[20]);
+                    $entity->setDomaineCompetence1($data[21]);
+                    $entity->setDomaineCompetence2($data[22]);
+                    $entity->setDomaineCompetence3($data[23]);
+                    $entity->setNiveauExpertisePedagogique($data[24]);
+                    $entity->setNiveauExpertisePro($data[25]);
+                    $entity->setEtat($data[26]);
+
+
+                    $em->persist($entity);
+
+                    if (($count % $batchSize) === 0) {
+                        $em->flush();
+                        $em->clear();
+                    }
+                }
+                fclose($handle);
+                $em->flush();
+                $em->clear();
+            }
         }
 
-        $entityManager->flush();
-
+        return $this->render("admin/import.html.twig", [
+            'form' => $form->createView()
+        ]);
     }
-
-
-//    #[Route('contrat-request/{contratRequest}', name: 'app_csv_export_contrat_request')]
-//    #[ParamConverter("contratRequest", class: Contrat::class)]
-//
-//    public function contrat_request_export(Contrat $contrat, CsvService $csvService) {
-//        $response = new Response($csvService->export($contrat, 'test'));
-//        $response->headers->set('Content-Type', 'text/csv');
-//        $response->headers->set('Content-Disposition', 'attachment');
-//
-//        return $response;
-//    }
-
 public function configureFilters(Filters $filters): Filters
 {
     return $filters
