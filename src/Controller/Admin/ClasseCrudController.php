@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Classe;
+use App\Entity\Matiere;
+use App\Service\CsvService;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -14,13 +17,27 @@ class ClasseCrudController extends AbstractCrudController
         return Classe::class;
     }
 
+    private CsvService $csvService;
+
+    public function __construct(CsvService $csvService, EntityManagerInterface $em)
+    {
+        $this->csvService = $csvService;
+        $this->entityManager = $em;
+
+    }
+
     public function configureFields(string $pageName): iterable
     {
+        $Matiererepo = $this->entityManager->getRepository(Matiere::class);
         return [
             TextField::new('nom')
-                ->setLabel('Nom de la classe'),
+                ->setLabel('Nom de la classe')
+                ->setRequired(true)
+                ->setColumns('col-4'),
             AssociationField::new('matiere')
-                ->setRequired(true),
+                ->setRequired(true)
+                ->setLabel('Matière')
+                ->setColumns('col-4'),
         ];
     }
 
