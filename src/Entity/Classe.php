@@ -29,6 +29,11 @@ class Classe
      */
     private $matiere;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="classe")
+     */
+    private $promo;
+
     public function __construct()
     {
         $this->matiere = new ArrayCollection();
@@ -77,6 +82,18 @@ class Classe
     public function removeMatiere(Matiere $matiere): self
     {
         $this->matiere->removeElement($matiere);
+
+        return $this;
+    }
+
+    public function getPromo(): ?Promo
+    {
+        return $this->promo;
+    }
+
+    public function setPromo(?Promo $promo): self
+    {
+        $this->promo = $promo;
 
         return $this;
     }
