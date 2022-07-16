@@ -24,22 +24,6 @@ class Promo
      */
     private $nom;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="promo")
-     */
-    private $classe;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Ecole::class, inversedBy="promo")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $ecole;
-
-    public function __construct()
-    {
-        $this->classe = new ArrayCollection();
-    }
-
     public function __toString(): string
     {
         return $this->getNom();
@@ -60,47 +44,5 @@ class Promo
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, classe>
-     */
-    public function getClasse(): Collection
-    {
-        return $this->classe;
-    }
-
-    public function addClasse(classe $classe): self
-    {
-        if (!$this->classe->contains($classe)) {
-            $this->classe[] = $classe;
-            $classe->setPromo($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClasse(classe $classe): self
-    {
-        if ($this->classe->removeElement($classe)) {
-            // set the owning side to null (unless already changed)
-            if ($classe->getPromo() === $this) {
-                $classe->setPromo(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getEcole(): ?Ecole
-    {
-        return $this->ecole;
-    }
-
-    public function setEcole(?Ecole $ecole): self
-    {
-        $this->ecole = $ecole;
-
-        return $this;
     }
 }

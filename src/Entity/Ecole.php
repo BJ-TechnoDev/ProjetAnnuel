@@ -24,16 +24,6 @@ class Ecole
      */
     private $nom;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Promo::class, mappedBy="ecole")
-     */
-    private $promo;
-
-    public function __construct()
-    {
-        $this->promo = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -47,36 +37,6 @@ class Ecole
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, promo>
-     */
-    public function getPromo(): Collection
-    {
-        return $this->promo;
-    }
-
-    public function addPromo(promo $promo): self
-    {
-        if (!$this->promo->contains($promo)) {
-            $this->promo[] = $promo;
-            $promo->setEcole($this);
-        }
-
-        return $this;
-    }
-
-    public function removePromo(promo $promo): self
-    {
-        if ($this->promo->removeElement($promo)) {
-            // set the owning side to null (unless already changed)
-            if ($promo->getEcole() === $this) {
-                $promo->setEcole(null);
-            }
-        }
 
         return $this;
     }

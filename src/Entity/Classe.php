@@ -25,12 +25,6 @@ class Classe
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="classe")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $promo;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Matiere::class)
      */
     private $matiere;
@@ -59,18 +53,6 @@ class Classe
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPromo(): ?Promo
-    {
-        return $this->promo;
-    }
-
-    public function setPromo(?Promo $promo): self
-    {
-        $this->promo = $promo;
 
         return $this;
     }
