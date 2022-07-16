@@ -24,5 +24,4 @@ class EcoleCrudController extends AbstractCrudController
                 ->setRequired(true),
         ];
     }
-
 }
