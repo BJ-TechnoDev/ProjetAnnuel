@@ -20,8 +20,8 @@ class EcoleCrudController extends AbstractCrudController
         return [
             TextField::new('nom')
                 ->setLabel('Nom de l\'école'),
-            AssociationField::new('promo'),
+            AssociationField::new('promo')
+                ->setRequired(true),
         ];
     }
-
 }

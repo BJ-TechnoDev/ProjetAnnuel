@@ -25,15 +25,14 @@ class Classe
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="classe")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $promo;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Matiere::class)
      */
     private $matiere;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="classe")
+     */
+    private $promo;
 
     public function __construct()
     {
@@ -63,18 +62,6 @@ class Classe
         return $this;
     }
 
-    public function getPromo(): ?Promo
-    {
-        return $this->promo;
-    }
-
-    public function setPromo(?Promo $promo): self
-    {
-        $this->promo = $promo;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Matiere>
      */
@@ -95,6 +82,18 @@ class Classe
     public function removeMatiere(Matiere $matiere): self
     {
         $this->matiere->removeElement($matiere);
+
+        return $this;
+    }
+
+    public function getPromo(): ?Promo
+    {
+        return $this->promo;
+    }
+
+    public function setPromo(?Promo $promo): self
+    {
+        $this->promo = $promo;
 
         return $this;
     }

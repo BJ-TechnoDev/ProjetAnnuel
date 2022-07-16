@@ -19,8 +19,8 @@ class ClasseCrudController extends AbstractCrudController
         return [
             TextField::new('nom')
                 ->setLabel('Nom de la classe'),
-            AssociationField::new('matiere'),
-            AssociationField::new('promo'),
+            AssociationField::new('matiere')
+                ->setRequired(true),
         ];
     }
 

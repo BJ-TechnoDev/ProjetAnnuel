@@ -28,6 +28,6 @@ class MatiereCrudController extends AbstractCrudController
             TextField::new('volume_heure')
                 ->setLabel('Volume Horaire'),
         ];
-//        TODO Réglé le problème de la relation avec classe
+//        TODO Réglé le problème des nombres a la place des noms
     }
 }

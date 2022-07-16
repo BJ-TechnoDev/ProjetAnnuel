@@ -16,13 +16,16 @@
     <h1 class="text-center">Documentation pour les nouveaux developpeurs</h1>
 
     <p>
-        Pour cette aplication nous avons développer avec symfony (<a href="https://symfony.com/">Voir la doc
-            symfony)</a>
+        Pour cette application, nous avons développé avec symfony (<a href="https://symfony.com/"><i class="fa-brands fa-symfony"></i> Voir la doc
+            symfony</a>)
         <br><br>
-        <strong>Je vais vous expliquer notre façons de penser</strong>
+        <strong>Je vais vous expliquer notre façon de penser</strong>
         <br><br>
-        Tout d'abord symfony est fait a base de controller pour la logique et pour la vue tout est dans le dossier
-        template nous sommes passer par des components la logique de chaque composant se trouve dans le dossier
+        <img src="{{ asset('build/dossier-dev.png') }}"
+             alt="arborescence des dossier de développement">
+        <br><br>
+        Tout d'abord symfony est fait à base de controller pour la logique et pour la vue tout est dans le dossier
+        template nous sommes passés par des components la logique de chaque composant se trouve dans le dossier
         src/Component
         et la vue dans le dossier template/component
         <br>
@@ -31,7 +34,7 @@
 
     <a class="linktohome" href="{{ path('homepage') }}">Revenir à la page d'accueil</a>
 </div>
-
+{#TODO finir le manuel d'utilisateur peut etre ajouter des images#}
 {{ encore_entry_script_tags('docdev') }}
 <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"

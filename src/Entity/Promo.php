@@ -31,7 +31,6 @@ class Promo
 
     /**
      * @ORM\ManyToOne(targetEntity=Ecole::class, inversedBy="promo")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $ecole;
 

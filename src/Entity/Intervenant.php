@@ -94,7 +94,7 @@ class Intervenant
     private $type_societe;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $volume_horaire;
 
