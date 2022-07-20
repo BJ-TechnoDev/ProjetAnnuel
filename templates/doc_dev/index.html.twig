@@ -16,10 +16,11 @@
     <h1 class="text-center">Documentation pour les nouveaux developpeurs</h1>
 
     <p>
-        Pour cette application, nous avons développé avec symfony (<a href="https://symfony.com/"><i class="fa-brands fa-symfony"></i> Voir la doc
+        Pour cette application, nous avons développé avec symfony (<a href="https://symfony.com/"><i
+                    class="fa-brands fa-symfony"></i> Voir la doc
             symfony</a>)
         <br><br>
-        <strong>Je vais vous expliquer notre façon de penser</strong>
+        <strong class="text-decoration-underline ">Je vais vous expliquer notre façon de penser</strong>
         <br><br>
         <img src="{{ asset('build/dossier-dev.png') }}"
              alt="arborescence des dossier de développement">
@@ -28,13 +29,73 @@
         template nous sommes passés par des components la logique de chaque composant se trouve dans le dossier
         src/Component
         et la vue dans le dossier template/component
+        <br><br>
+        <strong class="text-decoration-underline ">Pour les images / le style css / les scripts js tout ce passe dans le
+            dossier "assets"</strong>
+        <br><br>
+        <img src="{{ asset('build/Assets.png') }}" alt="arborescence des dossier de développement">
+        <img src="{{ asset('build/Style-js.png') }}" alt="arborescence des dossier de développement">
+        <br><br>
+        Ici vous retrouverez tous les fichiers css/js. Le fichier app.scss/app.js est le fichier qui s'occupe de la
+        partie Front End.<br>
+        Le fichier easyadmin.css/easyadmin.js est le fichier qui s'occupe de la partie Back End.<br>
+        Les images seront stockées dans le dossier <strong>image</strong>.
+        <br><br>
+        <strong class="text-decoration-underline ">Pour tout ce qui est de la gestion des pages du site :</strong>
         <br>
-        Pour les styles tout se passe dans le dossier asset/style ici encore on organise tout avec des composants
+        <br>
+        <img src="{{ asset('build/Controller.png') }}" alt="arborescence des dossier de développement">
+        <br><br>
+        Dans le dosser <strong>Controller</strong>, il existe un dossier Admin qui va gérer toute les pages du Backend.
+        <br>
+        Mais ceux qui ne s'y trouvent pas vont être gérer comme leur noms l'indique, la page front et la page Login.
+        <br><br>
+        <strong class="text-decoration-underline ">La gestion de la base de donnée :</strong>
+        <br><br>
+        <img src="{{ asset('build/Bdd.png') }}" alt="arborescence des dossier de développement">
+        <br><br>
+        Dans le dossier <strong>Entity</strong> se trouve toutes les tables qui sont dans notre base de donnée, c'est
+        ici qu'on va gérer les relations (relier deux bases entre elles) et les champs.
+        <br><br>
+        <strong class="text-decoration-underline ">Le Formulaire Contact et les Repository</strong>
+        <br><br>
+        <img src="{{ asset('build/Form : Repository.png') }}" alt="arborescence des dossier de développement">
+        <br><br>
+        Dans le dossier <strong>Form</strong> c'est ici qu'on gère le formulaire contact et donc l'envoie du mail.
+        <br>
+        Dans le dosser <strong>Repository</strong>, c'est ici qu'on va gérer les actions faite par rapport à la base de
+        donnée.
+        <br><br>
+        <strong class="text-decoration-underline ">La gestion du login et des services</strong>
+        <br><br>
+        <img src="{{ asset('build/Security-service.png') }}" alt="arborescence des dossier de développement">
+        <br><br>
+        Dans le dossier <strong>Security</strong> c'est ici que va se passer la validation du Login.
+        <br>
+        Dans le dosser <strong>Service</strong>, c'est ici qu'on va créée des services qui vont nous permettre de
+        répéter le code.
+        <br><br>
+        <strong class="text-decoration-underline ">La gestion des pages Twig</strong>
+        <br><br>
+        <img src="{{ asset('build/Twig.png') }}" alt="arborescence des dossier de développement">
+        <br><br>
+        Dans le dosser <strong>templates</strong>, c'est ici qu'on va gérer nos pages HTML que se soit du côté Front End
+        ou du côté Back End.
+        <br>
+        Admin : back end<br>
+        Bundles : Page error <br>
+        Component : les documentations <br>
+        doc_dev : La documentation développeur <br>
+        front : front end <br>
+        security : Page Login <br>
+        Page index : base.html.twig <br><br>
+
+
     </p>
 
     <a class="linktohome" href="{{ path('homepage') }}">Revenir à la page d'accueil</a>
 </div>
-{#TODO finir le manuel d'utilisateur peut etre ajouter des images#}
+{# TODO finir le manuel d'utilisateur peut etre ajouter des images #}
 {{ encore_entry_script_tags('docdev') }}
 <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"
