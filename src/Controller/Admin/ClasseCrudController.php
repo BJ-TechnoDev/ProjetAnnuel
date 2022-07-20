@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Classe;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class ClasseCrudController extends AbstractCrudController
@@ -19,8 +20,12 @@ class ClasseCrudController extends AbstractCrudController
         return [
             TextField::new('nom')
                 ->setLabel('Nom de la classe'),
+            CollectionField::new('matiere')
+                ->setRequired(true)
+                ->onlyOnIndex(),
             AssociationField::new('matiere')
-                ->setRequired(true),
+                ->setRequired(true)
+                ->onlyOnForms(),
         ];
     }
 

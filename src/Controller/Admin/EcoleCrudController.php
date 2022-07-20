@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Ecole;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class EcoleCrudController extends AbstractCrudController
@@ -20,8 +21,12 @@ class EcoleCrudController extends AbstractCrudController
         return [
             TextField::new('nom')
                 ->setLabel('Nom de l\'école'),
+            CollectionField::new('promo')
+                ->setRequired(true)
+                ->onlyOnIndex(),
             AssociationField::new('promo')
-                ->setRequired(true),
+                ->setRequired(true)
+                ->onlyOnForms(),
         ];
     }
 }
