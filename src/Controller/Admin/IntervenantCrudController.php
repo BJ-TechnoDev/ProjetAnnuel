@@ -132,7 +132,6 @@ class IntervenantCrudController extends AbstractCrudController
             ->setCssClass('btn')
             ->createAsGlobalAction();
 
-        $exportContratCasparCas = Action::new('exportContrat');
 
         return $actions
 
@@ -142,10 +141,6 @@ class IntervenantCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, $export)
             ->add(Crud::PAGE_INDEX, $import)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->addBatchAction(Action::new($exportContratCasparCas, 'Exporter')
-                ->linkToCrudAction('exportContrat')
-                ->addCssClass('btn')
-                ->setIcon('fa fa-download'))
             ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
             ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER);
 
@@ -236,9 +231,12 @@ class IntervenantCrudController extends AbstractCrudController
                         $em->clear();
                     }
                 }
+                $this->addFlash('success', 'Votre Import a été effectué avec succès!');
                 fclose($handle);
                 $em->flush();
                 $em->clear();
+            } else {
+                $this->addFlash('danger', 'Votre Import a échoué!');
             }
         }
 

@@ -17,6 +17,7 @@ class Promo
     {
         return \array_merge([
             'Nom de la promo ' => $this->nom,
+            'Nom de la classe ' => $this->classe,
 
         ]);
     }
