@@ -166,12 +166,12 @@ class Contrat
     private $domaineCompetence3;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $niveauExpertisePedagogique;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $niveauExpertisePro;
 
@@ -482,24 +482,24 @@ class Contrat
         return $this;
     }
 
-    public function getNiveauExpertisePedagogique(): ?int
+    public function getNiveauExpertisePedagogique(): ?string
     {
         return $this->niveauExpertisePedagogique;
     }
 
-    public function setNiveauExpertisePedagogique(int $niveauExpertisePedagogique): self
+    public function setNiveauExpertisePedagogique(string $niveauExpertisePedagogique): self
     {
         $this->niveauExpertisePedagogique = $niveauExpertisePedagogique;
 
         return $this;
     }
 
-    public function getNiveauExpertisePro(): ?int
+    public function getNiveauExpertisePro(): ?string
     {
         return $this->niveauExpertisePro;
     }
 
-    public function setNiveauExpertisePro(int $niveauExpertisePro): self
+    public function setNiveauExpertisePro(string $niveauExpertisePro): self
     {
         $this->niveauExpertisePro = $niveauExpertisePro;
 
