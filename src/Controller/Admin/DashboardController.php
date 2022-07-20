@@ -46,10 +46,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Demande de Contrat')->setCssClass('text-black');
         yield MenuItem::linkToCrud("Accéder à vos contrat", "fa fa-folder-open", Contrat::class);
         yield MenuItem::section('Maquette Pédagogique')->setCssClass('text-black');
-        yield MenuItem::linkToCrud('Classe', 'fa fa-folder-open', Classe::class);
         yield MenuItem::linkToCrud('École', 'fa fa-folder-open', Ecole::class);
-        yield MenuItem::linkToCrud('Matière', 'fa fa-folder-open', Matiere::class);
         yield MenuItem::linkToCrud('Promo', 'fa fa-folder-open', Promo::class);
+        yield MenuItem::linkToCrud('Classe', 'fa fa-folder-open', Classe::class);
+        yield MenuItem::linkToCrud('Matière', 'fa fa-folder-open', Matiere::class);
         yield MenuItem::section('Export GoogleSheet')->setCssClass('text-black');
         yield MenuItem::linkToRoute("Export en GoogleSheet", 'fa fa-file-arrow-up', '#');
         yield MenuItem::section('Se Déconnecter')->setCssClass('text-black');

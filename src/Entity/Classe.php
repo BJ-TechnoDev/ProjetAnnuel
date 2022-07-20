@@ -16,7 +16,7 @@ class Classe
     {
         return \array_merge([
             'Nom de la classe' => $this->nom,
-            'Promo' => $this->promo,
+            'matiere' => $this->matiere,
         ]);
     }
 
@@ -42,9 +42,15 @@ class Classe
      */
     private $promo;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Promo::class, mappedBy="classe")
+     */
+    private $promos;
+
     public function __construct()
     {
         $this->matiere = new ArrayCollection();
+        $this->promos = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -102,6 +108,33 @@ class Classe
     public function setPromo(?Promo $promo): self
     {
         $this->promo = $promo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Promo>
+     */
+    public function getPromos(): Collection
+    {
+        return $this->promos;
+    }
+
+    public function addPromo(Promo $promo): self
+    {
+        if (!$this->promos->contains($promo)) {
+            $this->promos[] = $promo;
+            $promo->addClasse($this);
+        }
+
+        return $this;
+    }
+
+    public function removePromo(Promo $promo): self
+    {
+        if ($this->promos->removeElement($promo)) {
+            $promo->removeClasse($this);
+        }
 
         return $this;
     }

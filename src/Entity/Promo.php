@@ -17,8 +17,7 @@ class Promo
     {
         return \array_merge([
             'Nom de la promo ' => $this->nom,
-            'Classe' => $this->classe,
-            'Ecole' => $this->ecole,
+
         ]);
     }
 
@@ -34,9 +33,22 @@ class Promo
      */
     private $nom;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Ecole::class, mappedBy="promo")
+     */
+    private $ecoles;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="promos")
+     */
+    private $classe;
+
     public function __construct()
     {
+        $this->ecoles = new ArrayCollection();
+        $this->classe = new ArrayCollection();
     }
+
 
     public function __toString(): string
     {
@@ -59,4 +71,56 @@ class Promo
     {
         return $this->id;
     }
+
+    /**
+     * @return Collection<int, Ecole>
+     */
+    public function getEcoles(): Collection
+    {
+        return $this->ecoles;
+    }
+
+    public function addEcole(Ecole $ecole): self
+    {
+        if (!$this->ecoles->contains($ecole)) {
+            $this->ecoles[] = $ecole;
+            $ecole->addPromo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEcole(Ecole $ecole): self
+    {
+        if ($this->ecoles->removeElement($ecole)) {
+            $ecole->removePromo($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasse(): Collection
+    {
+        return $this->classe;
+    }
+
+    public function addClasse(Classe $classe): self
+    {
+        if (!$this->classe->contains($classe)) {
+            $this->classe[] = $classe;
+        }
+
+        return $this;
+    }
+
+    public function removeClasse(Classe $classe): self
+    {
+        $this->classe->removeElement($classe);
+
+        return $this;
+    }
+
 }

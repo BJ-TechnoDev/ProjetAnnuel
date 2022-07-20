@@ -32,9 +32,16 @@ class Ecole
      */
     private $nom;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Promo::class, inversedBy="ecoles")
+     */
+    private $promo;
+
     public function __construct()
     {
+        $this->promo = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -52,4 +59,29 @@ class Ecole
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Promo>
+     */
+    public function getPromo(): Collection
+    {
+        return $this->promo;
+    }
+
+    public function addPromo(Promo $promo): self
+    {
+        if (!$this->promo->contains($promo)) {
+            $this->promo[] = $promo;
+        }
+
+        return $this;
+    }
+
+    public function removePromo(Promo $promo): self
+    {
+        $this->promo->removeElement($promo);
+
+        return $this;
+    }
+
 }
