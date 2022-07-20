@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -38,8 +39,12 @@ class PromoCrudController extends AbstractCrudController
         return [
             TextField::new('nom')
                 ->setLabel('Nom de la Promo'),
+            CollectionField::new('classe')
+                ->setRequired(true)
+                ->onlyOnIndex(),
             AssociationField::new('classe')
-                ->setRequired(true),
+                ->setRequired(true)
+                ->onlyOnForms(),
         ];
     }
 

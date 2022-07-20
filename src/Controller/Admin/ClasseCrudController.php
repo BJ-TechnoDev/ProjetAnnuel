@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -36,11 +37,15 @@ class ClasseCrudController extends AbstractCrudController
     {
         return [
             TextField::new('nom')
-                ->setLabel('Nom de la classe')
+                ->setLabel('Nom de la classe'),
+            CollectionField::new('matiere')
                 ->setRequired(true)
+                ->onlyOnIndex()
+                ->setLabel('Nom de la classe')
                 ->setColumns('col-4'),
             AssociationField::new('matiere')
                 ->setRequired(true)
+                ->onlyOnForms()
                 ->setLabel('Matière')
                 ->setColumns('col-4'),
         ];
