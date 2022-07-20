@@ -30,7 +30,7 @@
         src/Component
         et la vue dans le dossier template/component
         <br><br>
-        <strong class="text-decoration-underline ">Pour les images / le style css / les scripts js tout ce passe dans le
+        <strong class="text-decoration-underline ">Pour les images / le style css / les scripts js tout se passe dans le
             dossier "assets"</strong>
         <br><br>
         <img src="{{ asset('build/Assets.png') }}" alt="arborescence des dossier de développement">
@@ -46,9 +46,9 @@
         <br>
         <img src="{{ asset('build/Controller.png') }}" alt="arborescence des dossier de développement">
         <br><br>
-        Dans le dosser <strong>Controller</strong>, il existe un dossier Admin qui va gérer toute les pages du Backend.
+        Dans le dossier <strong>Controller</strong>, il existe un dossier Admin qui va gérer toutes les pages du Backend.
         <br>
-        Mais ceux qui ne s'y trouvent pas vont être gérer comme leur noms l'indique, la page front et la page Login.
+        Mais ceux qui ne s'y trouvent pas vont être géré comme leurs noms l'indique, la page front et la page Login.
         <br><br>
         <strong class="text-decoration-underline ">La gestion de la base de donnée :</strong>
         <br><br>
@@ -59,11 +59,11 @@
         <br><br>
         <strong class="text-decoration-underline ">Le Formulaire Contact et les Repository</strong>
         <br><br>
-        <img src="{{ asset('build/Form : Repository.png') }}" alt="arborescence des dossier de développement">
+        <img src="{{ asset('build/Repo-Form.png') }}" alt="arborescence des dossier de développement">
         <br><br>
         Dans le dossier <strong>Form</strong> c'est ici qu'on gère le formulaire contact et donc l'envoie du mail.
         <br>
-        Dans le dosser <strong>Repository</strong>, c'est ici qu'on va gérer les actions faite par rapport à la base de
+        Dans le dossier <strong>Repository</strong>, c'est ici qu'on va gérer les actions faites par rapport à la base de
         donnée.
         <br><br>
         <strong class="text-decoration-underline ">La gestion du login et des services</strong>
@@ -72,19 +72,19 @@
         <br><br>
         Dans le dossier <strong>Security</strong> c'est ici que va se passer la validation du Login.
         <br>
-        Dans le dosser <strong>Service</strong>, c'est ici qu'on va créée des services qui vont nous permettre de
+        Dans le dossier <strong>Service</strong>, c'est ici qu'on va créer des services qui vont nous permettre de
         répéter le code.
         <br><br>
         <strong class="text-decoration-underline ">La gestion des pages Twig</strong>
         <br><br>
         <img src="{{ asset('build/Twig.png') }}" alt="arborescence des dossier de développement">
         <br><br>
-        Dans le dosser <strong>templates</strong>, c'est ici qu'on va gérer nos pages HTML que se soit du côté Front End
+        Dans le dosser <strong>templates</strong>, c'est ici qu'on va gérer nos pages HTML que ce soit du côté Front End
         ou du côté Back End.
         <br>
         Admin : back end<br>
         Bundles : Page error <br>
-        Component : les documentations <br>
+        Component : les documentations + quelque partie de code répéter dans le front <br>
         doc_dev : La documentation développeur <br>
         front : front end <br>
         security : Page Login <br>
@@ -95,7 +95,6 @@
 
     <a class="linktohome" href="{{ path('homepage') }}">Revenir à la page d'accueil</a>
 </div>
-{# TODO finir le manuel d'utilisateur peut etre ajouter des images #}
 {{ encore_entry_script_tags('docdev') }}
 <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"
