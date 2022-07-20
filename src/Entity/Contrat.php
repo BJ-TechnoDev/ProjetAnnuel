@@ -18,7 +18,6 @@ class Contrat
             'Intervenant' => $this->intervenant,
             'Societe' => $this->typeSociete,
             'Commentaires' => $this->commentaire,
-            'Statut Contrat' => $this->statusContrat,
             'Type de Mission' => $this->typeMission,
             'Tarif a appliquer' => $this->tarif,
             'Horaire ou Forfaite' => $this->horaire,
@@ -73,11 +72,6 @@ class Contrat
      * @ORM\Column(type="string", length=255)
      */
     private $commentaire;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $statusContrat;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -264,17 +258,6 @@ class Contrat
         return $this;
     }
 
-    public function getStatusContrat(): ?string
-    {
-        return $this->statusContrat;
-    }
-
-    public function setStatusContrat(string $statusContrat): self
-    {
-        $this->statusContrat = $statusContrat;
-
-        return $this;
-    }
 
     public function getTypeMission(): ?string
     {

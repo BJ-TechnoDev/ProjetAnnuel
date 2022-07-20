@@ -67,10 +67,6 @@ class ContratCrudController extends AbstractCrudController
                 ->setLabel('Commentaires')
                 ->setRequired(true)
                 ->setColumns('col-4'),
-            TextField::new('statusContrat')
-                ->setLabel('Statut Contrat')
-                ->setRequired(true)
-                ->setColumns('col-4'),
             TextField::new('typeMission')
                 ->setLabel('Type de Mission')
                 ->setRequired(true)
@@ -290,7 +286,6 @@ class ContratCrudController extends AbstractCrudController
                     $entity->setIntervenant($intervenant);
                     $entity->setTypeSociete($data[3]);
                     $entity->setCommentaire($data[4]);
-                    $entity->setStatusContrat($data[5]);
                     $entity->setTypeMission($data[6]);
                     $entity->setTarif($data[7]);
                     $entity->setHoraire($data[8]);
