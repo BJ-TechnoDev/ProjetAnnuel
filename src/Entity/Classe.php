@@ -12,6 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Classe
 {
+    public function getExportDataClasse()
+    {
+        return \array_merge([
+            'Nom de la classe' => $this->nom,
+            'Promo' => $this->promo,
+        ]);
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

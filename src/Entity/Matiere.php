@@ -12,6 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Matiere
 {
+    public function getExportDataMatiere()
+    {
+        return \array_merge([
+            'Matière' => $this->nom,
+            'semestre' => $this->semestre,
+            'volume horaire' => $this->volume_heure,
+        ]);
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

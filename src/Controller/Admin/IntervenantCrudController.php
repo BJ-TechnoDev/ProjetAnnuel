@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
@@ -245,5 +246,13 @@ class IntervenantCrudController extends AbstractCrudController
             'form' => $form->createView()
         ]);
     }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('Nom')
+            ->add('Email');
+    }
+
 
 }
