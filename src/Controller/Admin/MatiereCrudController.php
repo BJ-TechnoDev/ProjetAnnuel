@@ -40,14 +40,17 @@ class MatiereCrudController extends AbstractCrudController
     {
         return [
             TextField::new('nom')
-                ->setLabel('Nom de la matière'),
+                ->setLabel('Nom de la matière')
+                ->setColumns('col-6'),
             ChoiceField::new('semestre')
                 ->setChoices([
                     'Semestre 1' => 'Semestre 1',
                     'Semestre 2' => 'Semestre 2'
-                ]),
+                ])
+                ->setColumns('col-6'),
             TextField::new('volume_heure')
-                ->setLabel('Volume Horaire'),
+                ->setLabel('Volume Horaire')
+                ->setColumns('col-6'),
         ];
     }
 

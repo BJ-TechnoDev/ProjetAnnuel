@@ -27,7 +27,6 @@ class Intervenant
             'Numero de contact' => $this->numero_contact,
             'Mail de contact' => $this->mail_contact,
             'Type de societe' => $this->type_societe,
-            'Volume horaire total' => $this->volume_horaire,
         ]);
     }
 
@@ -92,11 +91,6 @@ class Intervenant
      * @ORM\Column(type="string", length=255)
      */
     private $type_societe;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $volume_horaire;
 
     public function __toString(): string
     {
@@ -264,15 +258,4 @@ class Intervenant
         return $this;
     }
 
-    public function getVolumeHoraire(): ?int
-    {
-        return $this->volume_horaire;
-    }
-
-    public function setVolumeHoraire(int $volume_horaire): self
-    {
-        $this->volume_horaire = $volume_horaire;
-
-        return $this;
-    }
 }

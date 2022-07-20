@@ -15,7 +15,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FilterFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -86,10 +85,6 @@ class IntervenantCrudController extends AbstractCrudController
                 ->setLabel('Type de societe')
                 ->setRequired(true)
                 ->setColumns('col-6'),
-            NumberField::new('volume_horaire')
-                ->setLabel('Horaire total')
-                ->onlyOnIndex()
-                ->setColumns('col-6')
         ];
     }
 
@@ -221,7 +216,6 @@ class IntervenantCrudController extends AbstractCrudController
                     $entity->setNumeroContact($data[7]);
                     $entity->setMailContact($data[8]);
                     $entity->setTypeSociete($data[9]);
-                    $entity->setVolumeHoraire($data[10]);
 
 
                     $em->persist($entity);

@@ -43,13 +43,16 @@ class EcoleCrudController extends AbstractCrudController
     {
         return [
             TextField::new('nom')
-                ->setLabel('Nom de l\'école'),
+                ->setLabel('Nom de l\'école')
+                ->setColumns('col-6'),
             AssociationField::new('promo')
                 ->setRequired(true)
-                ->onlyOnForms(),
+                ->onlyOnForms()
+                ->setColumns('col-6'),
             CollectionField::new('promo')
                 ->setRequired(true)
                 ->onlyOnIndex()
+                ->setColumns('col-6')
 
         ];
     }
