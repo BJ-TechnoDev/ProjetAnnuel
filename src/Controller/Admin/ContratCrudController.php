@@ -147,11 +147,11 @@ class ContratCrudController extends AbstractCrudController
                 ->setLabel('Domaine de Compétence 3')
                 ->setRequired(true)
                 ->setColumns('col-4'),
-            NumberField::new('niveauExpertisePedagogique')
+            TextField::new('niveauExpertisePedagogique')
                 ->setLabel('Niveau d\'Expertise en Pédagogique')
                 ->setRequired(true)
                 ->setColumns('col-4'),
-            NumberField::new('niveauExpertisePro')
+            TextField::new('niveauExpertisePro')
                 ->setLabel('Niveau d\'Expertise Matière Professionnelle')
                 ->setRequired(true)
                 ->setColumns('col-4'),
