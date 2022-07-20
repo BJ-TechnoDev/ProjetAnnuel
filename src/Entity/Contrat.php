@@ -177,7 +177,6 @@ class Contrat
 
     /**
      * @ORM\ManyToOne(targetEntity=Intervenant::class, inversedBy="contrats")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $intervenant;
 

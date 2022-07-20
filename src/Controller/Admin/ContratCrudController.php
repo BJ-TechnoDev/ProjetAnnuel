@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contrat;
+use App\Entity\Intervenant;
+use App\Entity\Matiere;
 use App\Service\CsvService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -24,6 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\File;
+use function Symfony\Component\String\u;
 
 class ContratCrudController extends AbstractCrudController
 {
@@ -273,19 +276,18 @@ class ContratCrudController extends AbstractCrudController
                 while (($data = fgetcsv($handle, 0, ",")) !== false) {
                     $count++;
                     $entity = new Contrat();
-                    $test1 = $data[2];
-//                    $intervenant = u($test1)->split(' ');
-//                    $findintervenant = $em->getRepository(Intervenant::class)->findBy([
-//                        'Nom' => $intervenant[0],
-//                        'Prenom' => $intervenant[1]
-//                    ]);
-                    $matiere = $em->getRepository(Contrat::class)->find($data[14]);
-//                    $intervenant = $em->getRepository(Contrat::class)->find($data[2]);
-
+                    $splitintervenant = u($data[2])->split(' ');
+                    $matiere = $em->getRepository(Matiere::class)->findOneBy(array('nom' => $data[14]));
+                    $intervenant = $em->getRepository(Intervenant::class)->findOneBy(
+                        array(
+                            'Nom' => $splitintervenant[0],
+                            'Prenom' => $splitintervenant[1]
+                        )
+                    );
 
                     $entity->setDateDemande(new \DateTime($data[0]));
                     $entity->setMarqueOuEcole($data[1]);
-//                    $entity->setIntervenant($intervenant);
+                    $entity->setIntervenant($intervenant);
                     $entity->setTypeSociete($data[3]);
                     $entity->setCommentaire($data[4]);
                     $entity->setStatusContrat($data[5]);
