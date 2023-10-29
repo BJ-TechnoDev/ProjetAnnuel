@@ -4,7 +4,7 @@ Réalisation d'une application de gestion de contrats formateurs Sciences U Lyon
 
 ## Description du projet
 
-Par groupe de 3 nous devons créer une application de gestion de contrat. Nous avons donc décidé d'utiliser Symfony car c'est un framework PHP et que nous l'utilisons sur beaucoup hors de l'école.
+Par groupe de 3 nous devons créer une application de gestion de contrat. Nous avons donc décidé d'utiliser Symfony car c'est un framework PHP et que nous l'utilisons beaucoup hors de l'école.
 
 ## Les Objectifs du projet 
 
